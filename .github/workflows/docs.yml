@@ -3,9 +3,9 @@ name: Docs
 on:
   push:
     branches: [main]
-    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/check-doc-links.mjs"]
+    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/**"]
   pull_request:
-    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/check-doc-links.mjs"]
+    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/**"]
 
 permissions:
   contents: read
@@ -29,6 +29,14 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: node scripts/check-doc-links.mjs
+  sprint-plan:
+    name: Sprint plan is valid and up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/sprint/generate.mjs --check
   structure:
     name: Required docs exist
     runs-on: ubuntu-latest

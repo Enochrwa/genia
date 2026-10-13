@@ -1,0 +1,1039 @@
+{
+  "meta": {
+    "sprintLengthDays": 14,
+    "pointScale": [1, 2, 3, 5, 8, 13],
+    "commitmentLimit": 0.9,
+    "team": "2 backend or full-stack engineers, 1 frontend engineer, designer 50%, QA 50%, content and operations 50%, product owner",
+    "baselineVelocity": 34
+  },
+  "epics": {
+    "E0": "Discovery, legal and launch",
+    "E1": "Authentication and accounts",
+    "E2": "Ledger and wallet",
+    "E3": "Payments",
+    "E4": "Game engine",
+    "E5": "Question bank",
+    "E6": "Admin console",
+    "E7": "Risk, KYC and responsible play",
+    "E8": "Player experience",
+    "E9": "Notifications and support",
+    "E10": "DevOps and observability",
+    "E11": "Design and brand"
+  },
+  "sprints": [
+    {
+      "n": 0,
+      "name": "Foundations and discovery",
+      "goal": "Legal counsel engaged, payout model signed off, owner access obtained, backend and web scaffolds running in CI",
+      "demo": "Walk through green CI, health endpoints, signed prize table and counsel engagement letter",
+      "risks": "Owner unavailable or slow to share data; counsel timeline longer than expected",
+      "capacityNote": "Normal capacity",
+      "start": "2026-10-19",
+      "end": "2026-10-30",
+      "capacity": 26
+    },
+    {
+      "n": 1,
+      "name": "Accounts",
+      "goal": "A user can register with phone OTP, keep a session and set a PIN; design discovery validated with players",
+      "demo": "Register on a phone with a real SMS in the sandbox, log out everywhere, lock the PIN",
+      "risks": "SMS delivery reliability in Rwanda; abuse of OTP endpoint",
+      "capacityNote": "Normal capacity",
+      "start": "2026-11-02",
+      "end": "2026-11-13",
+      "capacity": 28
+    },
+    {
+      "n": 2,
+      "name": "Design system and ledger",
+      "goal": "Design system v1 and auth screens usable; ledger service posts balanced, idempotent transactions",
+      "demo": "Sign up in the UI, then show ledger entries produced by a test posting and the concurrency tests",
+      "risks": "Ledger concurrency bugs; design delays blocking UI work",
+      "capacityNote": "Normal capacity",
+      "start": "2026-11-16",
+      "end": "2026-11-27",
+      "capacity": 30
+    },
+    {
+      "n": 3,
+      "name": "Wallet and staging",
+      "goal": "Wallet shows balances and history from the ledger; provider interface exists; staging infrastructure live",
+      "demo": "Open the wallet UI with seeded history; deploy to staging",
+      "risks": "Terraform and cloud account setup delays",
+      "capacityNote": "Normal capacity",
+      "start": "2026-11-30",
+      "end": "2026-12-11",
+      "capacity": 32
+    },
+    {
+      "n": 4,
+      "name": "Deposits and limits",
+      "goal": "Deposit works end to end with the MTN MoMo sandbox including webhooks and the sweeper; limits enforced",
+      "demo": "Deposit in the sandbox, replay the webhook, watch the state machine",
+      "risks": "MTN sandbox instability and onboarding documentation gaps",
+      "capacityNote": "Christmas week: reduced capacity (about 85 percent)",
+      "start": "2026-12-14",
+      "end": "2026-12-25",
+      "capacity": 28
+    },
+    {
+      "n": 5,
+      "name": "Question service and game config",
+      "goal": "Deposit UI done; question service, game configuration and first question pool in place; staging deploys on merge",
+      "demo": "Import questions from content/, show a versioned prize table, deploy by merge",
+      "risks": "Question content quality and review throughput",
+      "capacityNote": "New Year holidays: reduced capacity (about 80 percent)",
+      "start": "2026-12-28",
+      "end": "2027-01-08",
+      "capacity": 26
+    },
+    {
+      "n": 6,
+      "name": "Game engine and withdrawals",
+      "goal": "Server-authoritative game runs through the API; entry selection screen done; withdrawal request flow with holds works",
+      "demo": "Play a full game via API with timers and settlement; request a withdrawal and see the hold",
+      "risks": "Settlement correctness under concurrency; timer fairness on slow networks",
+      "capacityNote": "Normal capacity",
+      "start": "2027-01-11",
+      "end": "2027-01-22",
+      "capacity": 34
+    },
+    {
+      "n": 7,
+      "name": "Play UI and admin auth",
+      "goal": "A player can play 3 questions in the UI and see results; abandoned games recover; staff login with 2FA and audit",
+      "demo": "Play on a 320 px phone, kill the connection mid-game and resume, log in to admin with TOTP",
+      "risks": "Mobile network drops; UI performance on low-end Android",
+      "capacityNote": "Heroes Day (1 February) falls in this sprint: reduced capacity",
+      "start": "2027-01-25",
+      "end": "2027-02-05",
+      "capacity": 32
+    },
+    {
+      "n": 8,
+      "name": "Payouts and admin tools",
+      "goal": "MTN MoMo payouts complete in sandbox; staff manage users and questions; support can view user timelines",
+      "demo": "Approve a sandbox payout, add 20 questions in the admin, open a dispute timeline",
+      "risks": "Disbursement edge cases (timeouts, partial failures)",
+      "capacityNote": "Normal capacity",
+      "start": "2027-02-08",
+      "end": "2027-02-19",
+      "capacity": 34
+    },
+    {
+      "n": 9,
+      "name": "Finance and country gating",
+      "goal": "Dual-control payout approvals, daily reconciliation, treasury caps and country gating protect funds and legality",
+      "demo": "Inject a reconciliation mismatch and watch the alert and freeze; show a country with real money disabled",
+      "risks": "Reconciliation against real provider statement formats",
+      "capacityNote": "Normal capacity",
+      "start": "2027-02-22",
+      "end": "2027-03-05",
+      "capacity": 34
+    },
+    {
+      "n": 10,
+      "name": "KYC and fraud",
+      "goal": "KYC tiers, age enforcement and fraud flag queue operate; admin KPI dashboard live",
+      "demo": "Complete KYC in sandbox, trigger a fraud flag and review it",
+      "risks": "KYC provider coverage for Rwandan IDs; false-positive fraud flags",
+      "capacityNote": "Normal capacity",
+      "start": "2027-03-08",
+      "end": "2027-03-19",
+      "capacity": 34
+    },
+    {
+      "n": 11,
+      "name": "Responsible play and readiness",
+      "goal": "Limits, self-exclusion and reality checks enforced; observability, load targets and abuse protection in place",
+      "demo": "Self-exclude and try to play; show dashboards and the load test result",
+      "risks": "Load test environment parity with production",
+      "capacityNote": "Easter (late March) falls in this sprint: reduced capacity",
+      "start": "2027-03-22",
+      "end": "2027-04-02",
+      "capacity": 30
+    },
+    {
+      "n": 12,
+      "name": "Security and legal",
+      "goal": "Pen test remediated, DR proven, notifications live, legal pages published after counsel review",
+      "demo": "Show pen test report with zero critical or high findings, restore a backup, receive a win SMS",
+      "risks": "Counsel review delays blocking legal pages; critical findings late in the sprint",
+      "capacityNote": "Kwibuka commemoration period (from 7 April): reduced capacity",
+      "start": "2027-04-05",
+      "end": "2027-04-16",
+      "capacity": 30
+    },
+    {
+      "n": 13,
+      "name": "Beta preparation",
+      "goal": "Existing IHUGURE users and balances migrated with proof, support tooling and onboarding polished, production merchant onboarding done",
+      "demo": "Migrate a dry-run dataset and reconcile it to zero difference; raise and resolve a support ticket",
+      "risks": "Unprovable legacy balances; merchant approval delays",
+      "capacityNote": "Normal capacity",
+      "start": "2027-04-19",
+      "end": "2027-04-30",
+      "capacity": 34
+    },
+    {
+      "n": 14,
+      "name": "Private beta",
+      "goal": "Invited users play with real money under low caps; daily reconciliation ritual running; feedback loop closed",
+      "demo": "Daily beta review: volumes, reconciliation, top issues",
+      "risks": "Real-money incidents; beta feedback overwhelming capacity",
+      "capacityNote": "Normal capacity; protect the beta fix budget",
+      "start": "2027-05-03",
+      "end": "2027-05-14",
+      "capacity": 34
+    },
+    {
+      "n": 15,
+      "name": "Launch",
+      "goal": "Launch gate passed, production deploy proven, performance targets met, hypercare plan active",
+      "demo": "Production release with approvals, smoke tests and rollback rehearsal",
+      "risks": "Legal gate not cleared (launch slips; keep free-to-play mode); last-minute defects",
+      "capacityNote": "Light commitment on purpose: buffer for launch issues",
+      "start": "2027-05-17",
+      "end": "2027-05-28",
+      "capacity": 34
+    }
+  ],
+  "stories": [
+    {
+      "id": "G-001",
+      "epic": "E0",
+      "title": "Owner discovery: interview owner, get access to current IHUGURE code, DB, domain and payment accounts",
+      "points": 3,
+      "sprint": 0,
+      "deps": [],
+      "role": "PO",
+      "acceptance": "docs/12-operations/owner-questions.md answered and access list recorded"
+    },
+    {
+      "id": "G-002",
+      "epic": "E0",
+      "title": "Engage Rwandan counsel: classification and licensing opinion kicked off, regulator contact plan",
+      "points": 3,
+      "sprint": 0,
+      "deps": [],
+      "role": "PO",
+      "acceptance": "Counsel engaged, scope and delivery date agreed in writing"
+    },
+    {
+      "id": "G-003",
+      "epic": "E0",
+      "title": "Payout model sign-off: define 200%, partial results, caps, reserve size",
+      "points": 5,
+      "sprint": 0,
+      "deps": ["G-001"],
+      "role": "PO + Backend",
+      "acceptance": "Signed prize table, per-game/user/day/platform caps and reserve target committed to docs/00-overview/economics.md"
+    },
+    {
+      "id": "G-004",
+      "epic": "E0",
+      "title": "Brand clearance for Genia: trademark, domain, app-store names, native-speaker check",
+      "points": 2,
+      "sprint": 0,
+      "deps": [],
+      "role": "PO",
+      "acceptance": "Search report stored; go/no-go on name recorded in ADR-0007"
+    },
+    {
+      "id": "G-005",
+      "epic": "E10",
+      "title": "Backend scaffold: NestJS app, typed config, health and ready endpoints, Dockerfile",
+      "points": 5,
+      "sprint": 0,
+      "deps": [],
+      "role": "Backend",
+      "acceptance": "GET /health and /ready return 200 in CI and docker compose; env validation fails fast"
+    },
+    {
+      "id": "G-006",
+      "epic": "E10",
+      "title": "Web scaffolds: Next.js player and admin with Tailwind, next-intl, PWA manifest",
+      "points": 5,
+      "sprint": 0,
+      "deps": [],
+      "role": "Frontend",
+      "acceptance": "Both apps build in CI; locale routing /rw /en /fr works"
+    },
+    {
+      "id": "G-007",
+      "epic": "E11",
+      "title": "Design discovery: personas, 5 player interviews, flow sketches for play, deposit, withdraw",
+      "points": 3,
+      "sprint": 1,
+      "deps": [],
+      "role": "Designer",
+      "acceptance": "Interview notes and validated flows in docs/11-design"
+    },
+    {
+      "id": "G-010",
+      "epic": "E1",
+      "title": "Phone + OTP request and verify API with per-phone and per-IP rate limits",
+      "points": 8,
+      "sprint": 1,
+      "deps": ["G-005"],
+      "role": "Backend",
+      "acceptance": "OTP 6 digits, 5 min expiry, 5 attempts, locked after; tests cover abuse cases"
+    },
+    {
+      "id": "G-011",
+      "epic": "E1",
+      "title": "Sessions: short-lived access token, rotating refresh token with reuse detection",
+      "points": 5,
+      "sprint": 1,
+      "deps": ["G-010"],
+      "role": "Backend",
+      "acceptance": "Reused refresh token revokes the session family; logout everywhere works"
+    },
+    {
+      "id": "G-012",
+      "epic": "E1",
+      "title": "Users and profile model: migration, locale, country, status, one account per phone",
+      "points": 3,
+      "sprint": 1,
+      "deps": ["G-005"],
+      "role": "Backend",
+      "acceptance": "Unique phone per country enforced by DB; migration reviewed"
+    },
+    {
+      "id": "G-013",
+      "epic": "E1",
+      "title": "Transaction PIN: set, change, lock after 5 failures for 30 minutes",
+      "points": 3,
+      "sprint": 1,
+      "deps": ["G-011"],
+      "role": "Backend",
+      "acceptance": "argon2id with pepper; lock and unlock behaviour tested"
+    },
+    {
+      "id": "G-014",
+      "epic": "E11",
+      "title": "Design system v1: tokens, core components in common/ui, Figma library",
+      "points": 5,
+      "sprint": 2,
+      "deps": ["G-007"],
+      "role": "Designer + Frontend",
+      "acceptance": "Wallet card, category card, countdown, answer button, status chips, toast, modal available; AA contrast tests green"
+    },
+    {
+      "id": "G-015",
+      "epic": "E8",
+      "title": "Web auth screens: language, onboarding, phone and OTP, age confirmation",
+      "points": 5,
+      "sprint": 2,
+      "deps": ["G-006", "G-010"],
+      "role": "Frontend",
+      "acceptance": "Works at 320 px; rw/en/fr strings complete"
+    },
+    {
+      "id": "G-016",
+      "epic": "E10",
+      "title": "SMS provider integration (Africa's Talking) with console fallback in dev",
+      "points": 3,
+      "sprint": 1,
+      "deps": ["G-010"],
+      "role": "Backend",
+      "acceptance": "OTP delivered in sandbox; delivery failures alert"
+    },
+    {
+      "id": "G-020",
+      "epic": "E2",
+      "title": "Ledger service over migration 0001: postings, idempotency, row-locked transactions",
+      "points": 8,
+      "sprint": 2,
+      "deps": ["G-012"],
+      "role": "Backend",
+      "acceptance": "All postings in backend/api/src/domain/ledger.ts persisted; concurrent tests pass"
+    },
+    {
+      "id": "G-021",
+      "epic": "E2",
+      "title": "Wallet module: cash, bonus and hold balances derived from the ledger",
+      "points": 5,
+      "sprint": 2,
+      "deps": ["G-020"],
+      "role": "Backend",
+      "acceptance": "Balance equals ledger sum in property tests; cannot go negative"
+    },
+    {
+      "id": "G-022",
+      "epic": "E2",
+      "title": "Transaction history API and receipts with reference IDs",
+      "points": 5,
+      "sprint": 3,
+      "deps": ["G-021"],
+      "role": "Backend",
+      "acceptance": "Paginated, filterable by type and status; receipt includes date, amount, fee, status, reference"
+    },
+    {
+      "id": "G-023",
+      "epic": "E2",
+      "title": "Limits model: deposit, loss and time limits stored and enforceable",
+      "points": 5,
+      "sprint": 4,
+      "deps": ["G-021"],
+      "role": "Backend",
+      "acceptance": "Decreases effective immediately, increases after cooling period"
+    },
+    {
+      "id": "G-024",
+      "epic": "E8",
+      "title": "Wallet UI: balance card, history list, status chips, receipt view",
+      "points": 5,
+      "sprint": 3,
+      "deps": ["G-021", "G-014"],
+      "role": "Frontend",
+      "acceptance": "Handles loading, empty and error states; accessible"
+    },
+    {
+      "id": "G-025",
+      "epic": "E10",
+      "title": "Playwright suite: register, login, home smoke on chromium and mobile-chrome",
+      "points": 3,
+      "sprint": 2,
+      "deps": ["G-015"],
+      "role": "QA",
+      "acceptance": "e2e workflow runs green in CI"
+    },
+    {
+      "id": "G-026",
+      "epic": "E2",
+      "title": "Invariant and concurrency test pack: double spend, replay, crash between steps",
+      "points": 5,
+      "sprint": 3,
+      "deps": ["G-020"],
+      "role": "QA + Backend",
+      "acceptance": "Tests fail if any invariant in docs/05-money breaks"
+    },
+    {
+      "id": "G-030",
+      "epic": "E3",
+      "title": "Provider adapter interface plus fake provider with configurable delay and failure",
+      "points": 5,
+      "sprint": 3,
+      "deps": ["G-021"],
+      "role": "Backend",
+      "acceptance": "Fake provider drives all deposit and withdrawal states in tests"
+    },
+    {
+      "id": "G-031",
+      "epic": "E3",
+      "title": "MTN MoMo collections adapter (sandbox) for deposits",
+      "points": 8,
+      "sprint": 4,
+      "deps": ["G-030"],
+      "role": "Backend",
+      "acceptance": "Sandbox deposit completes end to end; provider errors mapped to states"
+    },
+    {
+      "id": "G-032",
+      "epic": "E3",
+      "title": "Webhook ingestion: signature check, raw event store, dedupe, queue processing",
+      "points": 5,
+      "sprint": 4,
+      "deps": ["G-030"],
+      "role": "Backend",
+      "acceptance": "Replayed webhooks are harmless; provider status re-queried before posting"
+    },
+    {
+      "id": "G-033",
+      "epic": "E3",
+      "title": "Deposit state machine, pending sweeper job and receipts",
+      "points": 5,
+      "sprint": 4,
+      "deps": ["G-031", "G-032"],
+      "role": "Backend",
+      "acceptance": "Stale pending deposits reach EXPIRED or COMPLETED only after provider check"
+    },
+    {
+      "id": "G-034",
+      "epic": "E8",
+      "title": "Deposit UI with live status and failure recovery",
+      "points": 5,
+      "sprint": 5,
+      "deps": ["G-033", "G-024"],
+      "role": "Frontend",
+      "acceptance": "Pending, Processing, Completed, Failed shown; success only after backend confirms"
+    },
+    {
+      "id": "G-035",
+      "epic": "E10",
+      "title": "Staging infrastructure part 1: Terraform VPC, RDS PostgreSQL, Redis, secrets",
+      "points": 8,
+      "sprint": 3,
+      "deps": ["G-005"],
+      "role": "DevOps",
+      "acceptance": "Staging database reachable from app; terraform workflow green"
+    },
+    {
+      "id": "G-040",
+      "epic": "E5",
+      "title": "Question service: schema, CRUD API, lifecycle states, importer for content/ JSON",
+      "points": 5,
+      "sprint": 5,
+      "deps": ["G-005"],
+      "role": "Backend",
+      "acceptance": "Importer validates schema, sources and answer index; duplicates rejected"
+    },
+    {
+      "id": "G-041",
+      "epic": "E4",
+      "title": "Game config module: versioned prize tables, entry levels, per-country flags",
+      "points": 5,
+      "sprint": 5,
+      "deps": ["G-003", "G-012"],
+      "role": "Backend",
+      "acceptance": "Config snapshot stored with every game; defaults off for real money"
+    },
+    {
+      "id": "G-042",
+      "epic": "E4",
+      "title": "Game session service: start with hold, question selection, server timers in Redis",
+      "points": 8,
+      "sprint": 6,
+      "deps": ["G-020", "G-040", "G-041"],
+      "role": "Backend",
+      "acceptance": "One active game per user; questions never contain the correct answer"
+    },
+    {
+      "id": "G-043",
+      "epic": "E4",
+      "title": "Answer endpoint: deadline with grace, scoring, settlement postings, idempotent",
+      "points": 8,
+      "sprint": 6,
+      "deps": ["G-042"],
+      "role": "Backend",
+      "acceptance": "Late answers rejected; settlement can run exactly once under concurrency"
+    },
+    {
+      "id": "G-044",
+      "epic": "E5",
+      "title": "Seed question pool v1: 3 categories, English and Kinyarwanda, sourced and peer-reviewed",
+      "points": 5,
+      "sprint": 5,
+      "deps": ["G-040"],
+      "role": "Content",
+      "acceptance": "At least 300 reviewed questions per category by end of sprint, 500 target in sprint 5"
+    },
+    {
+      "id": "G-045",
+      "epic": "E10",
+      "title": "Staging infrastructure part 2: ECS services, CDN and WAF, deploy pipeline to staging",
+      "points": 3,
+      "sprint": 5,
+      "deps": ["G-035"],
+      "role": "DevOps",
+      "acceptance": "Merge to main deploys staging with smoke test"
+    },
+    {
+      "id": "G-050",
+      "epic": "E8",
+      "title": "Category and entry selection with rules summary and confirm screen",
+      "points": 5,
+      "sprint": 6,
+      "deps": ["G-041", "G-014"],
+      "role": "Frontend",
+      "acceptance": "Entry, prize, questions, time and refund rules shown on the confirm screen"
+    },
+    {
+      "id": "G-051",
+      "epic": "E8",
+      "title": "Game screen: countdown, question counter, answer cards, resume after disconnect",
+      "points": 8,
+      "sprint": 7,
+      "deps": ["G-043", "G-050"],
+      "role": "Frontend",
+      "acceptance": "Countdown reflects server expiresAt; reconnect resumes the same question"
+    },
+    {
+      "id": "G-052",
+      "epic": "E8",
+      "title": "Results screen and game history list and detail",
+      "points": 5,
+      "sprint": 7,
+      "deps": ["G-043"],
+      "role": "Frontend",
+      "acceptance": "Shows score, prize, correct answers and game reference"
+    },
+    {
+      "id": "G-053",
+      "epic": "E3",
+      "title": "Withdrawal request flow: PIN, limit checks, fee preview, hold posting, state machine",
+      "points": 8,
+      "sprint": 6,
+      "deps": ["G-013", "G-023", "G-030"],
+      "role": "Backend",
+      "acceptance": "Double submit creates one withdrawal; funds held until outcome"
+    },
+    {
+      "id": "G-054",
+      "epic": "E4",
+      "title": "Game recovery job: settle or refund abandoned and crashed games per published rules",
+      "points": 3,
+      "sprint": 7,
+      "deps": ["G-043"],
+      "role": "Backend",
+      "acceptance": "No game remains active beyond its deadline plus grace"
+    },
+    {
+      "id": "G-055",
+      "epic": "E5",
+      "title": "Question pool to 500 per category and monthly refresh process",
+      "points": 3,
+      "sprint": 7,
+      "deps": ["G-044"],
+      "role": "Content",
+      "acceptance": "Pool targets met; refresh calendar published"
+    },
+    {
+      "id": "G-060",
+      "epic": "E6",
+      "title": "Admin authentication: staff login with TOTP 2FA, RBAC guard, audit log",
+      "points": 8,
+      "sprint": 7,
+      "deps": ["G-011"],
+      "role": "Backend",
+      "acceptance": "Every admin action writes an audit record; roles per docs/07-security"
+    },
+    {
+      "id": "G-061",
+      "epic": "E3",
+      "title": "MTN MoMo disbursement adapter and payout worker with retries",
+      "points": 8,
+      "sprint": 8,
+      "deps": ["G-053", "G-031"],
+      "role": "Backend",
+      "acceptance": "Sandbox payouts complete; failures return funds via reversing postings"
+    },
+    {
+      "id": "G-062",
+      "epic": "E6",
+      "title": "Admin users list and detail: suspend, view limits and status",
+      "points": 5,
+      "sprint": 8,
+      "deps": ["G-060"],
+      "role": "Frontend",
+      "acceptance": "Actions require role and are audited"
+    },
+    {
+      "id": "G-063",
+      "epic": "E6",
+      "title": "Question management UI: CRUD, bulk import, search, filter, disable",
+      "points": 8,
+      "sprint": 8,
+      "deps": ["G-060", "G-040"],
+      "role": "Frontend",
+      "acceptance": "Non-technical editor can add 20 questions in 10 minutes"
+    },
+    {
+      "id": "G-070",
+      "epic": "E6",
+      "title": "Payout and deposit admin views with approval queue and dual control",
+      "points": 8,
+      "sprint": 9,
+      "deps": ["G-060", "G-061"],
+      "role": "Frontend + Backend",
+      "acceptance": "Approver differs from requester; large payouts need approval"
+    },
+    {
+      "id": "G-071",
+      "epic": "E2",
+      "title": "Daily reconciliation job against provider statements with mismatch alert and freeze",
+      "points": 8,
+      "sprint": 9,
+      "deps": ["G-061"],
+      "role": "Backend",
+      "acceptance": "Injected mismatch triggers alert and freezes affected payouts"
+    },
+    {
+      "id": "G-072",
+      "epic": "E2",
+      "title": "Treasury: reserve tracking, per game, user and platform daily caps, auto-pause",
+      "points": 8,
+      "sprint": 9,
+      "deps": ["G-043"],
+      "role": "Backend",
+      "acceptance": "Games pause when reserve falls below configured minimum"
+    },
+    {
+      "id": "G-073",
+      "epic": "E6",
+      "title": "Admin dashboard KPIs: users, deposits, withdrawals, games, revenue, reserve",
+      "points": 5,
+      "sprint": 10,
+      "deps": ["G-070"],
+      "role": "Frontend",
+      "acceptance": "Numbers reconcile with ledger queries"
+    },
+    {
+      "id": "G-074",
+      "epic": "E6",
+      "title": "Support dispute view: timeline of a user's games, questions, answers and ledger entries",
+      "points": 5,
+      "sprint": 8,
+      "deps": ["G-062"],
+      "role": "Frontend",
+      "acceptance": "Support can resolve a dispute without database access"
+    },
+    {
+      "id": "G-080",
+      "epic": "E7",
+      "title": "KYC integration (Smile Identity): tiers and withdrawal gating",
+      "points": 8,
+      "sprint": 10,
+      "deps": ["G-053"],
+      "role": "Backend",
+      "acceptance": "Tier 2 required for first withdrawal; documents encrypted"
+    },
+    {
+      "id": "G-081",
+      "epic": "E7",
+      "title": "Age enforcement: verified 18+ before first withdrawal, under-age block",
+      "points": 3,
+      "sprint": 10,
+      "deps": ["G-080"],
+      "role": "Backend",
+      "acceptance": "Under-age accounts cannot deposit or withdraw"
+    },
+    {
+      "id": "G-082",
+      "epic": "E7",
+      "title": "Fraud rules engine v1: device, IP and phone linkage, response-time anomalies, rapid cycling",
+      "points": 8,
+      "sprint": 10,
+      "deps": ["G-043"],
+      "role": "Backend",
+      "acceptance": "Rules produce flags with evidence; no automatic accusation"
+    },
+    {
+      "id": "G-083",
+      "epic": "E7",
+      "title": "Responsible play: limits UI, self-exclusion, cool-off and reality checks",
+      "points": 8,
+      "sprint": 11,
+      "deps": ["G-023"],
+      "role": "Frontend + Backend",
+      "acceptance": "Excluded users cannot play or deposit; tested end to end"
+    },
+    {
+      "id": "G-084",
+      "epic": "E7",
+      "title": "Country feature gating framework and localized legal page host",
+      "points": 5,
+      "sprint": 9,
+      "deps": ["G-041"],
+      "role": "Backend + Frontend",
+      "acceptance": "Real money disabled for any country without an explicit enabled flag (ADR-0005)"
+    },
+    {
+      "id": "G-085",
+      "epic": "E7",
+      "title": "Fraud and flag review queue in admin with actions and appeal notes",
+      "points": 5,
+      "sprint": 10,
+      "deps": ["G-082", "G-060"],
+      "role": "Frontend",
+      "acceptance": "Analyst can restrict, clear or escalate with audit trail"
+    },
+    {
+      "id": "G-090",
+      "epic": "E10",
+      "title": "Observability: OpenTelemetry, Sentry, dashboards and alerts for payments, ledger, reserve",
+      "points": 8,
+      "sprint": 11,
+      "deps": ["G-045"],
+      "role": "DevOps",
+      "acceptance": "Alert rules from docs/09-devops/observability.md live in staging"
+    },
+    {
+      "id": "G-091",
+      "epic": "E10",
+      "title": "Load testing and tuning at 5x expected peak with k6",
+      "points": 5,
+      "sprint": 11,
+      "deps": ["G-045", "G-043"],
+      "role": "QA + DevOps",
+      "acceptance": "p95 under 300 ms and answers under 150 ms at target load"
+    },
+    {
+      "id": "G-092",
+      "epic": "E7",
+      "title": "Security review and penetration test with remediation",
+      "points": 8,
+      "sprint": 12,
+      "deps": ["G-060", "G-080"],
+      "role": "Security + Backend",
+      "acceptance": "No open critical or high findings"
+    },
+    {
+      "id": "G-093",
+      "epic": "E7",
+      "title": "Abuse hardening: Cloudflare bot protection, API rate limits, webhook allow-lists",
+      "points": 5,
+      "sprint": 11,
+      "deps": ["G-045"],
+      "role": "DevOps + Backend",
+      "acceptance": "Rate limit and bot tests pass in staging"
+    },
+    {
+      "id": "G-094",
+      "epic": "E10",
+      "title": "Backup and restore drill, disaster recovery runbook, chaos tests",
+      "points": 5,
+      "sprint": 12,
+      "deps": ["G-035"],
+      "role": "DevOps",
+      "acceptance": "Restore within RTO 1 hour; chaos scenarios documented"
+    },
+    {
+      "id": "G-095",
+      "epic": "E9",
+      "title": "Notifications: SMS, email and in-app for deposits, wins and withdrawals",
+      "points": 5,
+      "sprint": 12,
+      "deps": ["G-016", "G-061"],
+      "role": "Backend",
+      "acceptance": "Templates in rw/en/fr; delivery tracked"
+    },
+    {
+      "id": "G-100",
+      "epic": "E0",
+      "title": "Legal pages localized (terms, privacy, refund, responsible play, payment policy) after counsel review",
+      "points": 5,
+      "sprint": 12,
+      "deps": ["G-002", "G-084"],
+      "role": "PO + Counsel",
+      "acceptance": "Published in rw, en, fr with licence details"
+    },
+    {
+      "id": "G-101",
+      "epic": "E0",
+      "title": "Migration of IHUGURE users and balances: export, reconcile, opening postings, user comms",
+      "points": 8,
+      "sprint": 13,
+      "deps": ["G-001", "G-020"],
+      "role": "Backend + PO",
+      "acceptance": "Every migrated balance proven against payment records; unprovable balances excluded"
+    },
+    {
+      "id": "G-102",
+      "epic": "E9",
+      "title": "Support: in-app tickets, admin handling, WhatsApp line, localized macros",
+      "points": 8,
+      "sprint": 13,
+      "deps": ["G-074"],
+      "role": "Backend + Frontend",
+      "acceptance": "Ticket numbers issued; first-response SLA tracked"
+    },
+    {
+      "id": "G-103",
+      "epic": "E8",
+      "title": "Onboarding, how-it-works, help centre, low-data mode, PWA install, accessibility pass",
+      "points": 8,
+      "sprint": 13,
+      "deps": ["G-015"],
+      "role": "Frontend + Designer",
+      "acceptance": "WCAG 2.2 AA checks in CI; LCP budget met on throttled 3G"
+    },
+    {
+      "id": "G-104",
+      "epic": "E11",
+      "title": "Brand identity: logo, icons, store and social assets for Genia",
+      "points": 3,
+      "sprint": 12,
+      "deps": ["G-004"],
+      "role": "Designer",
+      "acceptance": "Assets approved by owner"
+    },
+    {
+      "id": "G-110",
+      "epic": "E3",
+      "title": "Production merchant onboarding with MTN and Airtel",
+      "points": 5,
+      "sprint": 13,
+      "deps": ["G-061"],
+      "role": "PO + Backend",
+      "acceptance": "Production credentials in secret manager; test transactions succeed"
+    },
+    {
+      "id": "G-111",
+      "epic": "E10",
+      "title": "Beta release: caps and allow-list configuration, daily reconciliation review ritual",
+      "points": 5,
+      "sprint": 14,
+      "deps": ["G-071", "G-072"],
+      "role": "Backend + PO",
+      "acceptance": "Beta limited to invited users with low caps"
+    },
+    {
+      "id": "G-112",
+      "epic": "E8",
+      "title": "Beta feedback fixes and UX iteration budget",
+      "points": 13,
+      "sprint": 14,
+      "deps": ["G-103"],
+      "role": "Team",
+      "acceptance": "Top 10 beta issues resolved or scheduled"
+    },
+    {
+      "id": "G-114",
+      "epic": "E9",
+      "title": "Support training, dispute playbooks and SLA dashboard",
+      "points": 3,
+      "sprint": 14,
+      "deps": ["G-102"],
+      "role": "Ops",
+      "acceptance": "Agents pass scenario drills"
+    },
+    {
+      "id": "G-120",
+      "epic": "E0",
+      "title": "Launch gate review: legal gate, reserve funded, reconciliation clean for 14 days",
+      "points": 3,
+      "sprint": 15,
+      "deps": ["G-100", "G-111"],
+      "role": "PO",
+      "acceptance": "docs/12-operations/launch-checklist.md fully ticked"
+    },
+    {
+      "id": "G-121",
+      "epic": "E10",
+      "title": "Production infrastructure, runbooks, on-call rota and public status page",
+      "points": 8,
+      "sprint": 14,
+      "deps": ["G-045", "G-090"],
+      "role": "DevOps",
+      "acceptance": "Production environment passes smoke tests; runbooks rehearsed"
+    },
+    {
+      "id": "G-122",
+      "epic": "E10",
+      "title": "Production deploy pipeline with approvals, automatic rollback and smoke tests",
+      "points": 5,
+      "sprint": 15,
+      "deps": ["G-121"],
+      "role": "DevOps",
+      "acceptance": "deploy-production workflow succeeds on a release candidate"
+    },
+    {
+      "id": "G-123",
+      "epic": "E8",
+      "title": "Performance and polish pass against budgets",
+      "points": 5,
+      "sprint": 15,
+      "deps": ["G-112"],
+      "role": "Frontend",
+      "acceptance": "LCP under 2.5 s on 3G for home and game routes"
+    },
+    {
+      "id": "G-124",
+      "epic": "E9",
+      "title": "Launch communications and localized marketing assets",
+      "points": 3,
+      "sprint": 15,
+      "deps": ["G-104"],
+      "role": "PO + Designer",
+      "acceptance": "Assets approved; support briefed"
+    },
+    {
+      "id": "G-125",
+      "epic": "E10",
+      "title": "Hypercare plan: first 2 weeks monitoring, daily standups, rollback criteria",
+      "points": 3,
+      "sprint": 15,
+      "deps": ["G-121"],
+      "role": "Team",
+      "acceptance": "Plan agreed and rotas filled"
+    }
+  ],
+  "releaseTwo": [
+    {
+      "id": "R-001",
+      "title": "Airtel Money collections adapter (deposits)",
+      "points": 5,
+      "why": "Second payment rail; launch is MTN MoMo first. Move into the plan if the owner requires Airtel at launch (adds about 2 sprints)"
+    },
+    {
+      "id": "R-002",
+      "title": "Airtel Money disbursement adapter (payouts)",
+      "points": 5,
+      "why": "Pairs with R-001"
+    },
+    {
+      "id": "R-003",
+      "title": "Report-question flow in game results",
+      "points": 3,
+      "why": "Improves question quality; admin tools already support retirement"
+    },
+    {
+      "id": "R-004",
+      "title": "Question pool to 1000 per category with correct-rate retirement",
+      "points": 5,
+      "why": "Anti-memorisation; needs real play data"
+    },
+    {
+      "id": "R-005",
+      "title": "Leaderboards (daily, weekly, monthly, all-time) and monthly rewards programme with published rules",
+      "points": 8,
+      "why": "Retention and replaces the informal monthly reward"
+    },
+    {
+      "id": "R-006",
+      "title": "Achievements and streaks",
+      "points": 5,
+      "why": "Retention"
+    },
+    {
+      "id": "R-007",
+      "title": "Daily challenge",
+      "points": 5,
+      "why": "Retention"
+    },
+    {
+      "id": "R-008",
+      "title": "Difficulty tiers and additional categories (Rwanda, Africa, World, Technology, Science)",
+      "points": 8,
+      "why": "Content breadth"
+    },
+    {
+      "id": "R-009",
+      "title": "Push notifications and analytics dashboard",
+      "points": 13,
+      "why": "Engagement and decision support"
+    },
+    {
+      "id": "R-010",
+      "title": "Passkeys (WebAuthn) for players",
+      "points": 5,
+      "why": "Stronger, simpler login"
+    },
+    {
+      "id": "R-011",
+      "title": "Card and regional payment adapters behind the provider interface",
+      "points": 13,
+      "why": "Global expansion; only after legal gate for each country"
+    },
+    {
+      "id": "R-012",
+      "title": "Second-market readiness: legal opinion, licensing, languages, currency, KYC",
+      "points": 13,
+      "why": "Follows docs/08-compliance/market-entry-checklist.md"
+    },
+    {
+      "id": "R-013",
+      "title": "React Native app on shared packages",
+      "points": 13,
+      "why": "Native distribution and push"
+    },
+    {
+      "id": "R-014",
+      "title": "Multiplayer rooms, head-to-head and tournaments",
+      "points": 21,
+      "why": "Growth feature; high regulatory and fraud exposure, needs its own design"
+    }
+  ]
+}

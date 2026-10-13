@@ -12,7 +12,7 @@ All workflows live in `.github/workflows`. A composite action, `.github/actions/
 | `e2e.yml` | PR, main, manual | Playwright on chromium and mobile-chrome. Skips until `web/player/playwright.config.ts` exists. |
 | `security.yml` | PR, main, daily | gitleaks, dependency review, `pnpm audit`, Trivy filesystem scan (SARIF), guard that the public question type never exposes answers. |
 | `codeql.yml` | PR, main, weekly | CodeQL for JavaScript and TypeScript. |
-| `docs.yml` | Markdown changes | markdownlint, relative-link check (`scripts/check-doc-links.mjs`), required docs exist. |
+| `docs.yml` | Markdown and script changes | markdownlint, relative-link check (`scripts/check-doc-links.mjs`), sprint plan validation and freshness (`scripts/sprint/generate.mjs --check`), required docs exist. |
 | `terraform.yml` | `infra/terraform/**` | `fmt -check`, `validate`, Trivy config scan. |
 | `nightly.yml` | daily | Full suite with Postgres and Redis on Node 20 and 22, coverage artifacts. |
 | `load-test.yml` | manual, weekly | k6 against staging (`scripts/load/k6-game-flow.js`), thresholds p95 < 300 ms. |

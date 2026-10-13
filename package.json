@@ -16,7 +16,9 @@
     "test:e2e": "turbo run test:e2e",
     "db:migrate": "pnpm --filter @genia/api db:migrate",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "sprint:check": "node scripts/sprint/generate.mjs --check",
+    "sprint:generate": "node scripts/sprint/generate.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",

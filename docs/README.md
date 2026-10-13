@@ -3,7 +3,7 @@
 | Folder | Contents |
 |---|---|
 | [00-overview](00-overview/) | Vision, glossary, current-state analysis of IHUGURE APP |
-| [01-product](01-product/) | PRD, features, user stories, roadmap, UX principles |
+| [01-product](01-product/) | PRD, features, user stories, roadmap, [sprint plan](01-product/sprints/sprint-plan.md), UX principles |
 | [02-architecture](02-architecture/) | Architecture overview, technology decisions, repo and module structure, frontend and backend guides |
 | [03-api](03-api/) | API conventions, endpoint catalogue, webhooks, error codes |
 | [04-data](04-data/) | Data model, ER overview, migrations policy, retention |

@@ -17,3 +17,9 @@ Timeline assumes 2-4 engineers; a solo developer should double it.
 ## Milestones as epics
 
 E1 Auth and accounts, E2 Ledger and wallet, E3 Payments, E4 Game engine, E5 Question bank, E6 Admin console, E7 Risk and fraud, E8 Player UX, E9 Notifications, E10 Compliance tooling, E11 Observability and DevOps.
+
+## Sprint-level plan
+
+The stage table above is the high-level view. The detailed schedule is in [sprints/sprint-plan.md](sprints/sprint-plan.md): 16 two-week sprints from 19 October 2026 to 28 May 2027, 75 stories and 417 story points, with private beta in sprint 14 and the launch gate in sprint 15. The process (ceremonies, definition of done, estimation) is in [sprints/README.md](sprints/README.md).
+
+The sprint plan is longer than the stage table suggests because it includes ramp-up, holiday capacity dips, a 10 percent commitment buffer and MTN MoMo first, Airtel Money as a fast follow.
