@@ -1,3 +1,4 @@
+# Root module: providers and versions. Environment stacks live in envs/.
 terraform {
   required_version = ">= 1.6.0"
 
