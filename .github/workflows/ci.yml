@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "### Coverage" >> "$GITHUB_STEP_SUMMARY"
           for f in $(find . -path ./node_modules -prune -o -name coverage-summary.json -print 2>/dev/null); do echo "- $f" >> "$GITHUB_STEP_SUMMARY"; done
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: "**/coverage/"
