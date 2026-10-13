@@ -1,7 +1,7 @@
 # Internationalisation Guide
 
 - Locales at launch: `rw` (Kinyarwanda), `en`, `fr`. Default by country with user override.
-- Catalogues: `apps/web/messages/{rw,en,fr}.json`, keys namespaced (`wallet.deposit.title`).
+- Catalogues: `web/player/messages/{rw,en,fr}.json`, keys namespaced (`wallet.deposit.title`).
 - ICU message format for plurals and numbers; no string concatenation.
 - Currency and number formatting via `Intl`; currency from wallet, not locale.
 - Dates in user timezone; store UTC.

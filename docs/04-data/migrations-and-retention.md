@@ -1,10 +1,12 @@
 # Migrations and Retention
 
 ## Migrations
+
 - Versioned, forward-only, reviewed. Destructive changes use expand/contract in separate releases.
 - Run in CI against a real Postgres; run in deploy before the new app version.
 
 ## Retention
+
 | Data | Retention |
 |---|---|
 | Ledger, transactions, audit logs | At least 7 years (confirm per jurisdiction) |
@@ -15,4 +17,5 @@
 | Logs | 30-90 days, PII redacted |
 
 ## Privacy requests
+
 Export and deletion processes preserve legally required financial records while anonymising profile data.

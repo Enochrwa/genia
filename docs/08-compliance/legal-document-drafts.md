@@ -3,6 +3,7 @@
 Required public documents: Terms and Conditions, Privacy Policy, Responsible Play Policy, Refund Policy, Payment Policy, Complaints Procedure, Cookie Policy.
 
 ## Terms structure (short summary first, full text below)
+
 1. Who we are and licence/registration details
 2. Eligibility (18+, country, one account)
 3. How the game works (entry, questions, time, scoring)

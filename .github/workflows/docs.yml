@@ -1,0 +1,42 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/check-doc-links.mjs"]
+  pull_request:
+    paths: ["docs/**", "**/*.md", ".github/workflows/docs.yml", "scripts/check-doc-links.mjs"]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !node_modules/**
+  links:
+    name: Relative links resolve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/check-doc-links.mjs
+  structure:
+    name: Required docs exist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          missing=0
+          for f in docs/README.md docs/01-product/prd.md docs/02-architecture/overview.md docs/05-money/wallet-and-ledger.md docs/06-game-engine/game-engine.md docs/07-security/security-baseline.md docs/08-compliance/README.md; do
+            [ -f "$f" ] || { echo "missing $f"; missing=1; }
+          done
+          exit $missing

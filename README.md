@@ -10,23 +10,27 @@ Genia is the next generation of **IHUGURE APP**. It replaces the original protot
 
 ```text
 genia/
-├── apps/
-│   ├── web/        Next.js (React, TypeScript) PWA for players
-│   ├── api/        NestJS modular-monolith API (REST + WebSocket)
-│   ├── admin/      Admin console (Next.js)
-│   └── mobile/     React Native (Expo) app, later phase
-├── packages/
-│   ├── shared-types/  Types and zod schemas shared by all apps
-│   ├── api-client/    Typed client generated from the OpenAPI spec
-│   ├── ui/            Shared design-system components
-│   ├── i18n/          Shared translation helpers
-│   └── config/        Shared ESLint, TypeScript, Prettier configs
-├── infra/          Terraform, Docker, Kubernetes manifests
-├── content/        Question bank source files by language
-├── docs/           All project documentation (start at docs/README.md)
-├── scripts/        Developer and ops scripts
-└── .github/        CI/CD workflows, templates, CODEOWNERS
+├── web/
+│   ├── player/      Player PWA (Next.js, TypeScript)
+│   └── admin/       Admin console (Next.js)
+├── mobile/
+│   └── app/         React Native (Expo) app, later phase
+├── backend/
+│   └── api/         NestJS modular-monolith API (REST + WebSocket), domain logic, SQL migrations
+├── common/
+│   ├── types/       Shared types, zod schemas, money and state machines
+│   ├── api-client/  Typed API client
+│   ├── ui/          Design tokens and shared UI
+│   ├── i18n/        Message catalogues (rw, en, fr) and helpers
+│   └── config/      Shared TypeScript configuration
+├── infra/           Terraform, Docker, Kubernetes
+├── content/         Question bank sources by language
+├── docs/            All project documentation (start at docs/README.md)
+├── scripts/         Developer and ops scripts (doc link check, k6 load tests)
+└── .github/         Workflows, composite actions, templates, CODEOWNERS
 ```
+
+New top-level areas (for example `backend/workers` or `web/marketing`) are added as sibling folders and picked up automatically by the pnpm workspace globs.
 
 ## Tech stack
 
@@ -50,7 +54,8 @@ Full reasoning: [`docs/02-architecture/technology-decisions.md`](docs/02-archite
 cp .env.example .env
 docker compose up -d        # PostgreSQL, Redis, Mailpit
 pnpm install
-pnpm db:migrate
+pnpm db:migrate             # needs DATABASE_URL from .env
+pnpm test                   # unit tests for every workspace
 pnpm dev                    # web :3000, api :4000, admin :3001
 ```
 
@@ -69,7 +74,7 @@ Start at [`docs/README.md`](docs/README.md). Key documents:
 
 ## Status
 
-Pre-development: planning and documentation phase. See [`docs/01-product/roadmap.md`](docs/01-product/roadmap.md).
+Early development: monorepo, shared libraries, domain logic (ledger, game scoring, economics), SQL ledger migration, tests and CI are in place. Application servers and UIs are next. See [`docs/01-product/roadmap.md`](docs/01-product/roadmap.md).
 
 ## License
 

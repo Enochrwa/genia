@@ -15,6 +15,7 @@ NestJS API (modules)
 ```
 
 ## Patterns
+
 - **Outbox:** state change and outgoing event commit in one transaction.
 - **Provider adapters:** each payment provider implements one interface.
 - **Feature flags per country** gate real-money functions.
@@ -23,4 +24,5 @@ NestJS API (modules)
 - **Event-driven side effects** (notifications, leaderboards, analytics) via queues.
 
 ## Module boundaries
+
 Modules expose services and events, never repositories. Cross-module calls go through public interfaces. Ledger is the only module allowed to write ledger tables. Enforced by lint rules and review.

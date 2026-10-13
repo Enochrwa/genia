@@ -1,14 +1,42 @@
 name: Deploy staging
+
 on:
   workflow_run:
     workflows: [CI]
     branches: [main]
     types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Deploy to staging
+    # Enabled by setting the repository variable DEPLOY_ENABLED=true once infrastructure exists.
+    if: ${{ vars.DEPLOY_ENABLED == 'true' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     environment: staging
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Build images, push to registry, run migrations, deploy (see docs/09-devops/deployment.md)"
+      - uses: ./.github/actions/setup
+      - run: pnpm build
+      - name: Run migrations (staging database)
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: pnpm --filter @genia/api db:migrate
+      - name: Deploy
+        run: echo "Replace with the ECS/Terraform deploy step (see docs/09-devops/infrastructure.md)"
+      - name: Smoke test
+        if: ${{ vars.STAGING_URL != '' }}
+        run: |
+          for i in 1 2 3 4 5; do
+            curl -fsS "${{ vars.STAGING_URL }}/health" && exit 0
+            sleep 10
+          done
+          echo "Smoke test failed"; exit 1

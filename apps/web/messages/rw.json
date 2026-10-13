@@ -1,5 +1,0 @@
-{
-  "app": { "name": "Genia", "tagline": "Subiza. Hangana. Wunguke." },
-  "home": { "play": "Tangira gukina", "wallet": "Igikapu", "history": "Amateka", "leaderboard": "Urutonde" },
-  "game": { "seconds": "amasegonda {count}", "question": "Ikibazo {current} muri {total}", "confirm": "Nasobanukiwe, kina" }
-}

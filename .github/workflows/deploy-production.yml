@@ -1,0 +1,57 @@
+name: Deploy production
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to deploy (e.g. v1.2.0)
+        required: true
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - name: Tag must be a semantic version
+        run: echo "${{ inputs.tag }}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'
+      - name: CI must have passed on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          state=$(gh api "repos/${{ github.repository }}/commits/$sha/check-runs" --jq '[.check_runs[] | select(.name=="CI passed")] | last | .conclusion')
+          [ "$state" = "success" ] || { echo "CI passed check is '$state' for $sha"; exit 1; }
+
+  deploy:
+    name: Deploy to production
+    needs: verify
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: production # configure required reviewers in repository settings
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: ./.github/actions/setup
+      - name: Backup check
+        run: echo "Confirm a recent database snapshot exists before migrating (docs/09-devops)"
+      - name: Run migrations
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: pnpm --filter @genia/api db:migrate
+      - name: Deploy
+        run: echo "Replace with the production deploy step; keep automatic rollback on failed smoke test"
+      - name: Smoke test
+        if: ${{ vars.PRODUCTION_URL != '' }}
+        run: curl -fsS "${{ vars.PRODUCTION_URL }}/health"

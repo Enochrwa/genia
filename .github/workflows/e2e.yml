@@ -1,0 +1,68 @@
+name: E2E
+
+on:
+  pull_request:
+    paths: ["web/**", "backend/**", "common/**"]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect Playwright suite
+    runs-on: ubuntu-latest
+    outputs:
+      has_suite: ${{ steps.check.outputs.has_suite }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f web/player/playwright.config.ts ]; then echo "has_suite=true" >> "$GITHUB_OUTPUT"; else echo "has_suite=false" >> "$GITHUB_OUTPUT"; echo "No Playwright suite yet (web/player/playwright.config.ts missing); skipping." >> "$GITHUB_STEP_SUMMARY"; fi
+
+  playwright:
+    name: Playwright (${{ matrix.project }})
+    needs: detect
+    if: needs.detect.outputs.has_suite == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, mobile-chrome]
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: genia
+          POSTGRES_PASSWORD: genia
+          POSTGRES_DB: genia
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U genia" --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
+      REDIS_URL: redis://localhost:6379
+      PAYMENTS_ENABLED: "false"
+      FEATURE_REAL_MONEY: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm --filter @genia/api db:migrate
+      - run: pnpm --filter @genia/web-player exec playwright install --with-deps ${{ matrix.project == 'mobile-chrome' && 'chromium' || matrix.project }}
+      - run: pnpm --filter @genia/web-player exec playwright test --project=${{ matrix.project }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: web/player/playwright-report/
+          retention-days: 7

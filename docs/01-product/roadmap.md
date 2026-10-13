@@ -15,4 +15,5 @@
 Timeline assumes 2-4 engineers; a solo developer should double it.
 
 ## Milestones as epics
+
 E1 Auth and accounts, E2 Ledger and wallet, E3 Payments, E4 Game engine, E5 Question bank, E6 Admin console, E7 Risk and fraud, E8 Player UX, E9 Notifications, E10 Compliance tooling, E11 Observability and DevOps.

@@ -1,37 +1,106 @@
 name: CI
+
 on:
-  push: { branches: [main] }
+  push:
+    branches: [main]
   pull_request:
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  # On pull requests only run tasks for workspaces affected by the change.
+  TURBO_FILTER: ${{ github.event_name == 'pull_request' && format('--filter=...[origin/{0}]', github.base_ref) || '' }}
+
 jobs:
-  verify:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        env: { POSTGRES_USER: genia, POSTGRES_PASSWORD: genia, POSTGRES_DB: genia }
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U genia" --health-interval 5s --health-retries 10
-      redis:
-        image: redis:7
-        ports: ["6379:6379"]
-    env:
-      DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
-      REDIS_URL: redis://localhost:6379
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm test
-      - run: pnpm build
-  secrets-scan:
-    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
-      - uses: gitleaks/gitleaks-action@v2
-        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run lint $TURBO_FILTER
+
+  format:
+    name: Format check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm format:check
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run typecheck $TURBO_FILTER
+
+  test:
+    name: Unit tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup
+        with: { node-version: "${{ matrix.node }}" }
+      - run: pnpm turbo run test $TURBO_FILTER
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm test:coverage
+      - name: Summarise coverage
+        run: |
+          echo "### Coverage" >> "$GITHUB_STEP_SUMMARY"
+          for f in $(find . -path ./node_modules -prune -o -name coverage-summary.json -print 2>/dev/null); do echo "- $f" >> "$GITHUB_STEP_SUMMARY"; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: "**/coverage/"
+          retention-days: 14
+          if-no-files-found: ignore
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup
+      - run: pnpm turbo run build $TURBO_FILTER
+
+  # Single required check for branch protection.
+  ci-ok:
+    name: CI passed
+    if: always()
+    needs: [lint, format, typecheck, test, coverage, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify all jobs succeeded
+        run: |
+          if [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}" = "true" ]; then
+            echo "One or more required jobs failed"; exit 1
+          fi

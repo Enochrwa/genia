@@ -1,5 +1,0 @@
-{
-  "app": { "name": "Genia", "tagline": "Answer. Compete. Earn." },
-  "home": { "play": "Play now", "wallet": "Wallet", "history": "History", "leaderboard": "Leaderboard" },
-  "game": { "seconds": "{count} seconds", "question": "Question {current} of {total}", "confirm": "I understand, play" }
-}

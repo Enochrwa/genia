@@ -1,5 +1,0 @@
-{
-  "app": { "name": "Genia", "tagline": "Réponds. Défie. Gagne." },
-  "home": { "play": "Jouer", "wallet": "Portefeuille", "history": "Historique", "leaderboard": "Classement" },
-  "game": { "seconds": "{count} secondes", "question": "Question {current} sur {total}", "confirm": "J'ai compris, jouer" }
-}

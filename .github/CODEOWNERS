@@ -1,5 +1,5 @@
 * @Enochrwa
 /docs/05-money/ @Enochrwa
-/apps/api/src/modules/ledger/ @Enochrwa
-/apps/api/src/modules/wallet/ @Enochrwa
-/apps/api/src/modules/payments/ @Enochrwa
+/backend/api/src/modules/ledger/ @Enochrwa
+/backend/api/src/modules/wallet/ @Enochrwa
+/backend/api/src/modules/payments/ @Enochrwa

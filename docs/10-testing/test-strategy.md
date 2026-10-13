@@ -11,6 +11,7 @@
 | Accessibility | axe in CI | Critical flows |
 
 ## Money-critical tests (mandatory)
+
 - Concurrent withdrawals cannot overspend.
 - Same idempotency key twice yields one effect.
 - Webhook replay is harmless.
@@ -19,4 +20,20 @@
 - Crash between steps leaves a recoverable state (hold released or settled by recovery job).
 
 ## Coverage targets
+
 Domain and ledger code > 90%; overall > 75%.
+
+## Where tests live
+
+| Area | Location | Command |
+|---|---|---|
+| Domain logic (ledger, game, economics) | `backend/api/tests/*.test.ts` | `pnpm --filter @genia/api test` |
+| Database invariants (append-only, balanced, idempotent, concurrent settle) | `backend/api/tests/integration` | `pnpm --filter @genia/api test:integration` (needs `DATABASE_URL`) |
+| Shared types and state machines | `common/types/tests` | `pnpm --filter @genia/types test` |
+| Translations parity | `common/i18n/tests` | `pnpm --filter @genia/i18n test` |
+| API client | `common/api-client/tests` | `pnpm --filter @genia/api-client test` |
+| Design tokens (WCAG contrast) | `common/ui/tests` | `pnpm --filter @genia/ui test` |
+| Admin RBAC and dual control | `web/admin/tests` | `pnpm --filter @genia/web-admin test` |
+| Load | `scripts/load/k6-game-flow.js` | `k6 run scripts/load/k6-game-flow.js` |
+
+CI runs all of these; see `docs/09-devops/github-actions.md`.

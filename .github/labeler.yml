@@ -1,0 +1,33 @@
+web:
+  - changed-files:
+      - any-glob-to-any-file: ["web/**"]
+mobile:
+  - changed-files:
+      - any-glob-to-any-file: ["mobile/**"]
+backend:
+  - changed-files:
+      - any-glob-to-any-file: ["backend/**"]
+common:
+  - changed-files:
+      - any-glob-to-any-file: ["common/**"]
+infra:
+  - changed-files:
+      - any-glob-to-any-file: ["infra/**", "docker-compose.yml"]
+docs:
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "**/*.md"]
+ci:
+  - changed-files:
+      - any-glob-to-any-file: [".github/**"]
+content:
+  - changed-files:
+      - any-glob-to-any-file: ["content/**"]
+money:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "backend/api/src/domain/ledger.ts"
+          - "backend/api/src/modules/ledger/**"
+          - "backend/api/src/modules/wallet/**"
+          - "backend/api/src/modules/payments/**"
+          - "backend/api/src/database/migrations/**"
+          - "docs/05-money/**"

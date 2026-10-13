@@ -1,0 +1,28 @@
+name: Mobile
+
+on:
+  push:
+    branches: [main]
+    paths: ["mobile/**", "common/**", "pnpm-lock.yaml"]
+  pull_request:
+    paths: ["mobile/**", "common/**", "pnpm-lock.yaml"]
+
+concurrency:
+  group: mobile-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    name: Mobile app (lint, types, tests, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm --filter "./mobile/*..." lint
+      - run: pnpm --filter "./mobile/*..." typecheck
+      - run: pnpm --filter "./mobile/*..." test
+      - run: pnpm --filter "./mobile/*..." build

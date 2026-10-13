@@ -1,14 +1,17 @@
 # Product Requirements Document (PRD)
 
 ## 1. Problem
+
 Players want a fair, understandable way to test knowledge for rewards on mobile. The current prototype lacks wallet, transparency and security.
 
 ## 2. Personas
+
 Casual player, competitive player, admin/operations, finance manager, support agent.
 
 ## 3. Scope by phase
 
 ### Phase 1: Foundation (must have)
+
 - Responsive PWA; install to home screen
 - Phone + OTP registration and login; transaction PIN; 18+ verification before first withdrawal
 - Wallet: cash, bonus, holds, history, receipts
@@ -20,12 +23,15 @@ Casual player, competitive player, admin/operations, finance manager, support ag
 - Support tickets and contact channels
 
 ### Phase 2: Retention and quality
+
 Game history review, leaderboards, difficulty tiers, more categories, question reporting, notifications (in-app, SMS, email, push), achievements, daily challenge, limits and self-exclusion, analytics.
 
 ### Phase 3: Global growth
+
 More currencies and payment rails, more languages, multiplayer and tournaments, referrals with abuse controls, native apps, ML fraud scoring, public API.
 
 ## 4. Non-functional requirements
+
 | Area | Target |
 |---|---|
 | Availability | 99.9% |
@@ -36,7 +42,9 @@ More currencies and payment rails, more languages, multiplayer and tournaments, 
 | Locales | en, fr, rw at launch; extensible |
 
 ## 5. Out of scope (for now)
+
 Social feed, chat, crypto/NFT, anything that adds regulatory exposure before licensing.
 
 ## 6. Open decisions
+
 See `docs/12-operations/owner-questions.md`.

@@ -15,6 +15,7 @@ Assumption: 3 questions, 3 options, winner receives 2x entry only if all 3 are c
 | 90% | 72.9% | 1.46 |
 
 ## Rules derived
+
 - Retire questions whose correct rate exceeds about 85%.
 - Per-game, per-user-per-day and platform-per-day payout caps.
 - Maintain the payout reserve above a configured multiple of maximum outstanding exposure.

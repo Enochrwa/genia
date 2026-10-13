@@ -1,0 +1,41 @@
+name: Load test (k6)
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Target base URL (staging only; never production without approval)
+        required: true
+        default: https://staging.example.com
+      vus:
+        description: Peak virtual users
+        default: "50"
+      duration:
+        description: Steady-state duration
+        default: 3m
+  schedule:
+    - cron: "0 2 * * 0"
+
+permissions:
+  contents: read
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'workflow_dispatch' || vars.STAGING_URL != ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - name: Run k6
+        env:
+          BASE_URL: ${{ inputs.base_url || vars.STAGING_URL }}
+          VUS: ${{ inputs.vus || '50' }}
+          DURATION: ${{ inputs.duration || '3m' }}
+          TOKEN: ${{ secrets.LOAD_TEST_TOKEN }}
+        run: k6 run --summary-export=k6-summary.json scripts/load/k6-game-flow.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-summary
+          path: k6-summary.json

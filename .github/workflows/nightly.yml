@@ -1,0 +1,50 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "23 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-suite:
+    name: Full suite on Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: genia
+          POSTGRES_PASSWORD: genia
+          POSTGRES_DB: genia
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U genia" --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with: { node-version: "${{ matrix.node }}" }
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test:coverage
+      - run: pnpm --filter @genia/api db:migrate
+      - run: pnpm --filter @genia/api test:integration
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nightly-coverage-node${{ matrix.node }}
+          path: "**/coverage/"
+          retention-days: 7
+          if-no-files-found: ignore

@@ -1,0 +1,78 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml"]
+  pull_request:
+    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml"]
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  money-critical:
+    name: Money-critical tests (ledger, game, economics)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Run with verbose reporter
+        run: pnpm --filter @genia/api exec vitest run --reporter=verbose
+      - name: Enforce coverage on domain code
+        run: pnpm --filter @genia/api exec vitest run --coverage --coverage.thresholds.lines=90 --coverage.thresholds.functions=90 --coverage.thresholds.branches=85
+
+  integration:
+    name: Integration (Postgres + Redis)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: genia
+          POSTGRES_PASSWORD: genia
+          POSTGRES_DB: genia
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U genia" --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Verify services are reachable
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client redis-tools
+          PGPASSWORD=genia psql -h localhost -U genia -d genia -c "select 1"
+          redis-cli -h localhost ping
+      - name: Apply migrations
+        run: pnpm --filter @genia/api db:migrate
+      - name: Integration tests
+        run: pnpm --filter @genia/api exec vitest run --passWithNoTests --dir tests/integration
+
+  migrations-lint:
+    name: Migration safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Block destructive statements without an explicit marker
+        run: |
+          set -e
+          dir=backend/api/src/database/migrations
+          [ -d "$dir" ] || exit 0
+          if grep -rEin '(drop table|drop column|truncate)' "$dir" --include='*.sql' | grep -v 'allow-destructive'; then
+            echo "Destructive migration found. Use expand/contract and add '-- allow-destructive: <reason>' only after review."
+            exit 1
+          fi

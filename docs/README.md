@@ -11,7 +11,7 @@
 | [06-game-engine](06-game-engine/) | Game flow, timers, scoring, question bank, anti-cheat |
 | [07-security](07-security/) | Security baseline, auth, threat model, fraud and risk |
 | [08-compliance](08-compliance/) | Legal gating, KYC/AML, responsible play, privacy |
-| [09-devops](09-devops/) | Local dev, environments, CI/CD, infrastructure, observability |
+| [09-devops](09-devops/) | Local dev, environments, CI/CD, GitHub Actions, infrastructure, observability |
 | [10-testing](10-testing/) | Test strategy and plans |
 | [11-design](11-design/) | Brand, design system, UX flows, i18n guide |
 | [12-operations](12-operations/) | Support, content operations, launch checklist |

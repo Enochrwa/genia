@@ -28,6 +28,7 @@ outbox(id, topic, payload, created_at, published_at)
 ```
 
 ## Constraints
+
 - UNIQUE: `ledger_transactions.idempotency_key`, `(provider, provider_ref)`, phone per country.
 - Foreign keys everywhere; `CHECK (balance_minor >= 0)` on any materialised balance.
 - `ledger_entries` are insert-only (revoke UPDATE/DELETE from the app role).

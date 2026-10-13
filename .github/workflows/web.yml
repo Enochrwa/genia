@@ -1,0 +1,28 @@
+name: Web
+
+on:
+  push:
+    branches: [main]
+    paths: ["web/**", "common/**", "pnpm-lock.yaml"]
+  pull_request:
+    paths: ["web/**", "common/**", "pnpm-lock.yaml"]
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Player + Admin (lint, types, tests, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm --filter "./web/*..." lint
+      - run: pnpm --filter "./web/*..." typecheck
+      - run: pnpm --filter "./web/*..." test
+      - run: pnpm --filter "./web/*..." build
