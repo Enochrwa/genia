@@ -1,0 +1,14 @@
+name: Deploy staging
+on:
+  workflow_run:
+    workflows: [CI]
+    branches: [main]
+    types: [completed]
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Build images, push to registry, run migrations, deploy (see docs/09-devops/deployment.md)"

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "q_sample_0001",
+    "category": "general-knowledge",
+    "difficulty": "easy",
+    "language": "en",
+    "body": "Which planet is known as the Red Planet?",
+    "options": ["Venus", "Mars", "Jupiter"],
+    "correct": 1,
+    "source": "https://science.nasa.gov/mars/"
+  }
+]

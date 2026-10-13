@@ -1,0 +1,37 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_USER: genia, POSTGRES_PASSWORD: genia, POSTGRES_DB: genia }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U genia" --health-interval 5s --health-retries 10
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
