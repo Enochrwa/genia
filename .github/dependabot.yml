@@ -4,16 +4,33 @@ updates:
     directory: /
     schedule: { interval: weekly, day: monday }
     open-pull-requests-limit: 10
+    # Only minor and patch updates are grouped. Majors arrive one PR at a time so a breaking bump cannot hide in a bundle.
     groups:
-      dev-tooling:
-        patterns:
-          ["eslint*", "@eslint/*", "typescript*", "prettier", "vitest", "@vitest/*", "turbo"]
-      production:
-        dependency-type: production
+      npm-minor-patch:
+        update-types: [minor, patch]
+    # Toolchain majors that are not yet supported by the rest of the stack (typescript-eslint, vite).
+    # Revisit when typescript-eslint supports TypeScript 7 and vitest 5 runs with the pinned vite.
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: vitest
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/*"
+        update-types: ["version-update:semver-major"]
+      # Types must match the oldest supported Node runtime (20/22), not the newest.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     commit-message: { prefix: "chore(deps)" }
   - package-ecosystem: github-actions
-    directory: /
+    directories: ["/", "/.github/actions/*"]
     schedule: { interval: weekly }
+    groups:
+      actions-minor-patch:
+        update-types: [minor, patch]
     commit-message: { prefix: "ci(deps)" }
   - package-ecosystem: docker
     directory: /infra/docker
