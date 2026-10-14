@@ -32,9 +32,7 @@ updates:
       actions-minor-patch:
         update-types: [minor, patch]
     commit-message: { prefix: "ci(deps)" }
-  - package-ecosystem: docker
-    directory: /infra/docker
-    schedule: { interval: weekly }
+  # Add a docker ecosystem entry for /infra/docker once Dockerfiles exist (Dependabot errors on an empty directory).
   - package-ecosystem: terraform
     directory: /infra/terraform
     schedule: { interval: weekly }
