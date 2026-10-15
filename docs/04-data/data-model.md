@@ -1,10 +1,12 @@
 # Data Model
 
 ```text
-users(id, phone, email, status, kyc_level, country, locale, birth_verified, created_at)
-credentials(user_id, pin_hash, password_hash, failed_pin_count, locked_until)
+users(id, phone_e164 UNIQUE, country, email, locale, status, kyc_level, birth_confirmed_at, created_at, updated_at)   [implemented]
+otp_challenges(id, phone_e164, code_hash, attempts, expires_at, consumed_at, requested_ip, created_at)             [implemented]
+sessions(id, user_id, device_id, user_agent, ip, created_at, last_seen_at, revoked_at, revoke_reason)             [implemented]
+refresh_tokens(id, session_id, token_hash UNIQUE, created_at, expires_at, used_at)                                [implemented]
+credentials(user_id, pin_hash, pin_set_at, failed_pin_count, pin_locked_until)                                    [implemented]
 passkeys(id, user_id, public_key, counter)
-sessions(id, user_id, device_id, ip, expires_at, revoked_at)
 wallets(id, user_id, currency, status)
 ledger_accounts(id, owner_type, owner_id, currency, kind)
 ledger_transactions(id, type, idempotency_key UNIQUE, status, reference, metadata, created_at)

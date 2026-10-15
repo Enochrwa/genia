@@ -1,12 +1,15 @@
 # Endpoint Catalogue (v1)
 
+Implemented so far: health, auth, profile, sessions and PIN. See [auth-and-accounts.md](auth-and-accounts.md) and [openapi.yaml](openapi.yaml). Other rows are planned.
+
 | Area | Endpoint | Notes |
 |---|---|---|
-| Auth | `POST /auth/otp/request` | Rate limited per phone and IP |
+| Auth | `POST /auth/otp/request` | Rate limited per phone and IP; always 202 |
 | Auth | `POST /auth/otp/verify` | Issues session |
-| Auth | `POST /auth/refresh`, `POST /auth/logout` | Rotating refresh |
+| Auth | `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/logout-all` | Rotating refresh with reuse detection |
+| Me | `GET /me/sessions`, `DELETE /me/sessions/{id}` | Device list and revoke |
 | Me | `GET/PATCH /me` | Profile, locale, country |
-| Me | `POST /me/pin`, `PUT /me/pin` | Set and change PIN |
+| Me | `POST /me/pin`, `PUT /me/pin`, `POST /me/pin/verify` | Set, change and verify PIN |
 | Me | `GET/PUT /me/limits`, `POST /me/self-exclude` | Responsible play |
 | KYC | `POST /kyc/sessions`, `GET /kyc/status` | Provider-hosted flow |
 | Wallet | `GET /wallet` | Balances by currency |

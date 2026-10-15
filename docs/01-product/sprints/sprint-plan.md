@@ -31,6 +31,29 @@
 | [14](sprint-14.md) Private beta | 3 May 2027 to 14 May 2027 | Invited users play with real money under low caps; daily reconciliation ritual running; feedback loop closed | 29 | 34 | 85% |
 | [15](sprint-15.md) Launch | 17 May 2027 to 28 May 2027 | Launch gate passed, production deploy proven, performance targets met, hypercare plan active | 19 | 34 | 56% |
 
+## Progress
+
+24 of 417 points done (6%).
+
+| Sprint | Done | In progress | To do |
+|---|---:|---:|---:|
+| 0 | 5 | 0 | 18 |
+| 1 | 19 | 6 | 0 |
+| 2 | 0 | 0 | 26 |
+| 3 | 0 | 0 | 28 |
+| 4 | 0 | 0 | 23 |
+| 5 | 0 | 0 | 23 |
+| 6 | 0 | 0 | 29 |
+| 7 | 0 | 0 | 27 |
+| 8 | 0 | 0 | 26 |
+| 9 | 0 | 0 | 29 |
+| 10 | 0 | 0 | 29 |
+| 11 | 0 | 0 | 26 |
+| 12 | 0 | 0 | 26 |
+| 13 | 0 | 0 | 29 |
+| 14 | 0 | 0 | 29 |
+| 15 | 0 | 0 | 19 |
+
 ## Release milestones
 
 | Milestone | Sprint | What it means |

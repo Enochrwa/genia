@@ -1,7 +1,7 @@
 # Sprint 2: Design system and ledger
 
 - Dates: 16 Nov 2026 to 27 Nov 2026
-- Capacity: 30 points; committed: 26 (87%)
+- Capacity: 30 points; committed: 26 (87%); done: 0
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,13 +10,13 @@ Design system v1 and auth screens usable; ledger service posts balanced, idempot
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-014 | E11 | Design system v1: tokens, core components in common/ui, Figma library | 5 | Designer + Frontend | G-007 |
-| G-015 | E8 | Web auth screens: language, onboarding, phone and OTP, age confirmation | 5 | Frontend | G-006, G-010 |
-| G-020 | E2 | Ledger service over migration 0001: postings, idempotency, row-locked transactions | 8 | Backend | G-012 |
-| G-021 | E2 | Wallet module: cash, bonus and hold balances derived from the ledger | 5 | Backend | G-020 |
-| G-025 | E10 | Playwright suite: register, login, home smoke on chromium and mobile-chrome | 3 | QA | G-015 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-014 | E11 | Design system v1: tokens, core components in common/ui, Figma library | 5 | Designer + Frontend | G-007 | To do |
+| G-015 | E8 | Web auth screens: language, onboarding, phone and OTP, age confirmation | 5 | Frontend | G-006, G-010 | To do |
+| G-020 | E2 | Ledger service over migration 0001: postings, idempotency, row-locked transactions | 8 | Backend | G-012 | To do |
+| G-021 | E2 | Wallet module: cash, bonus and hold balances derived from the ledger | 5 | Backend | G-020 | To do |
+| G-025 | E10 | Playwright suite: register, login, home smoke on chromium and mobile-chrome | 3 | QA | G-015 | To do |
 
 ## Acceptance criteria
 

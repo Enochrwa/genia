@@ -1,0 +1,268 @@
+openapi: 3.1.0
+info:
+  title: Genia API
+  version: 0.1.0
+  description: |
+    Sprint 1 surface: accounts, phone OTP sign-in, sessions with rotating refresh tokens and transaction PIN.
+    Errors use `{ "error": { "code", "message", "requestId", "details?" } }` (see error-codes.md).
+servers:
+  - url: http://localhost:4000
+paths:
+  /health:
+    get:
+      summary: Liveness probe
+      operationId: health
+      responses:
+        "200": { description: Process is up }
+  /ready:
+    get:
+      summary: Readiness probe (database and Redis)
+      operationId: ready
+      responses:
+        "200": { description: All dependencies up }
+        "503": { description: At least one dependency is down }
+  /v1/auth/otp/request:
+    post:
+      summary: Send a one-time code by SMS
+      operationId: requestOtp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OtpRequest" }
+      responses:
+        "202":
+          description: Code sent
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OtpRequested" }
+        "400": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+        "502": { $ref: "#/components/responses/Error" }
+  /v1/auth/otp/verify:
+    post:
+      summary: Verify the code and sign in (creates the account for a new number)
+      operationId: verifyOtp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OtpVerify" }
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AuthTokens" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "423": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+  /v1/auth/refresh:
+    post:
+      summary: Rotate the refresh token and get a new access token
+      operationId: refresh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Refresh" }
+      responses:
+        "200":
+          description: New token pair
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AuthTokens" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /v1/auth/logout:
+    post:
+      summary: Close the current session
+      operationId: logout
+      security: [{ bearer: [] }]
+      responses:
+        "204": { description: Session closed }
+        "401": { $ref: "#/components/responses/Error" }
+  /v1/auth/logout-all:
+    post:
+      summary: Close every session of the user
+      operationId: logoutAll
+      security: [{ bearer: [] }]
+      responses:
+        "200": { description: Number of sessions closed }
+        "401": { $ref: "#/components/responses/Error" }
+  /v1/me:
+    get:
+      summary: Current user
+      operationId: getMe
+      security: [{ bearer: [] }]
+      responses:
+        "200":
+          description: Profile
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "401": { $ref: "#/components/responses/Error" }
+    patch:
+      summary: Update language or email
+      operationId: updateMe
+      security: [{ bearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateProfile" }
+      responses:
+        "200":
+          description: Updated profile
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+  /v1/me/sessions:
+    get:
+      summary: Active sessions (devices)
+      operationId: listSessions
+      security: [{ bearer: [] }]
+      responses:
+        "200": { description: Sessions, the current one is marked }
+        "401": { $ref: "#/components/responses/Error" }
+  /v1/me/sessions/{id}:
+    delete:
+      summary: Close one of your sessions
+      operationId: revokeSession
+      security: [{ bearer: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        "204": { description: Closed }
+        "404": { $ref: "#/components/responses/Error" }
+  /v1/me/pin:
+    post:
+      summary: Set the transaction PIN (first time only)
+      operationId: setPin
+      security: [{ bearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SetPin" }
+      responses:
+        "204": { description: PIN set }
+        "409": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+    put:
+      summary: Change the transaction PIN
+      operationId: changePin
+      security: [{ bearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ChangePin" }
+      responses:
+        "204": { description: PIN changed }
+        "403": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "423": { $ref: "#/components/responses/Error" }
+  /v1/me/pin/verify:
+    post:
+      summary: Check the PIN (counts failures; locks after 5 for 30 minutes)
+      operationId: verifyPin
+      security: [{ bearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SetPin" }
+      responses:
+        "204": { description: PIN correct }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "423": { $ref: "#/components/responses/Error" }
+components:
+  securitySchemes:
+    bearer: { type: http, scheme: bearer, bearerFormat: JWT }
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, requestId]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            requestId: { type: string }
+            details: { type: object }
+    OtpRequest:
+      type: object
+      required: [phone]
+      properties:
+        phone: { type: string, example: "0788123456" }
+        locale: { type: string, enum: [rw, en, fr] }
+    OtpRequested:
+      type: object
+      properties:
+        expiresInSeconds: { type: integer }
+        resendAfterSeconds: { type: integer }
+    OtpVerify:
+      type: object
+      required: [phone, code]
+      properties:
+        phone: { type: string }
+        code: { type: string, pattern: "^\\d{6}$" }
+        ageConfirmed: { type: boolean, description: Required for a new number (18+ declaration) }
+        deviceId: { type: string }
+        locale: { type: string, enum: [rw, en, fr] }
+    Refresh:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken: { type: string }
+    AuthTokens:
+      type: object
+      properties:
+        tokenType: { type: string, enum: [Bearer] }
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer }
+        isNewUser: { type: boolean }
+        user: { $ref: "#/components/schemas/User" }
+    User:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        phone: { type: string }
+        country: { type: string }
+        locale: { type: string, enum: [rw, en, fr] }
+        email: { type: [string, "null"] }
+        status: { type: string, enum: [ACTIVE, SUSPENDED, SELF_EXCLUDED, CLOSED] }
+        kycLevel: { type: integer }
+        hasPin: { type: boolean }
+        createdAt: { type: string, format: date-time }
+    UpdateProfile:
+      type: object
+      properties:
+        locale: { type: string, enum: [rw, en, fr] }
+        email: { type: [string, "null"] }
+    SetPin:
+      type: object
+      required: [pin]
+      properties:
+        pin: { type: string, pattern: "^\\d{4,6}$" }
+    ChangePin:
+      type: object
+      required: [currentPin, newPin]
+      properties:
+        currentPin: { type: string }
+        newPin: { type: string }
