@@ -15,7 +15,7 @@ jobs:
     name: fmt + validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: hashicorp/setup-terraform@v3
         with: { terraform_version: "1.9.8" }
       - run: terraform fmt -check -recursive infra/terraform
@@ -28,7 +28,7 @@ jobs:
     name: Security scan (trivy config)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Trivy config scan
         run: |
           docker run --rm -v "$PWD:/work" -w /work aquasec/trivy:0.57.1 \

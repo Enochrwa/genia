@@ -21,7 +21,7 @@ jobs:
     outputs:
       has_suite: ${{ steps.check.outputs.has_suite }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: check
         run: |
           if [ -f web/player/playwright.config.ts ]; then echo "has_suite=true" >> "$GITHUB_OUTPUT"; else echo "has_suite=false" >> "$GITHUB_OUTPUT"; echo "No Playwright suite yet (web/player/playwright.config.ts missing); skipping." >> "$GITHUB_STEP_SUMMARY"; fi
@@ -55,7 +55,7 @@ jobs:
       PAYMENTS_ENABLED: "false"
       FEATURE_REAL_MONEY: "false"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: pnpm --filter @genia/api db:migrate
       - run: pnpm --filter @genia/web-player exec playwright install --with-deps ${{ matrix.project == 'mobile-chrome' && 'chromium' || matrix.project }}

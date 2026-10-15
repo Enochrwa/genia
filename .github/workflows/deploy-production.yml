@@ -19,7 +19,7 @@ jobs:
     name: Verify release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag }}
       - name: Tag must be a semantic version
@@ -40,7 +40,7 @@ jobs:
     environment: production # configure required reviewers in repository settings
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag }}
       - uses: ./.github/actions/setup
