@@ -34,7 +34,7 @@ jobs:
       DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
       REDIS_URL: redis://localhost:6379
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
         with: { node-version: "${{ matrix.node }}" }
       - run: pnpm lint

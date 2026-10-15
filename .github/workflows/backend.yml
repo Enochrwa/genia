@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run with verbose reporter
         run: pnpm --filter @genia/api exec vitest run --reporter=verbose
@@ -50,7 +50,7 @@ jobs:
       DATABASE_URL: postgresql://genia:genia@localhost:5432/genia
       REDIS_URL: redis://localhost:6379
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Verify services are reachable
         run: |
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Start PostgreSQL and Redis
         run: |
           # Throw-away containers. PostgreSQL uses trust authentication, so no password exists anywhere.
@@ -111,7 +111,7 @@ jobs:
     name: Migration safety
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Block destructive statements without an explicit marker
         run: |
           set -e
