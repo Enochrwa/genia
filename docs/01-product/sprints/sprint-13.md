@@ -1,7 +1,7 @@
 # Sprint 13: Beta preparation
 
 - Dates: 19 Apr 2027 to 30 Apr 2027
-- Capacity: 34 points; committed: 29 (85%)
+- Capacity: 34 points; committed: 29 (85%); done: 0
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,12 +10,12 @@ Existing IHUGURE users and balances migrated with proof, support tooling and onb
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-101 | E0 | Migration of IHUGURE users and balances: export, reconcile, opening postings, user comms | 8 | Backend + PO | G-001, G-020 |
-| G-102 | E9 | Support: in-app tickets, admin handling, WhatsApp line, localized macros | 8 | Backend + Frontend | G-074 |
-| G-103 | E8 | Onboarding, how-it-works, help centre, low-data mode, PWA install, accessibility pass | 8 | Frontend + Designer | G-015 |
-| G-110 | E3 | Production merchant onboarding with MTN and Airtel | 5 | PO + Backend | G-061 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-101 | E0 | Migration of IHUGURE users and balances: export, reconcile, opening postings, user comms | 8 | Backend + PO | G-001, G-020 | To do |
+| G-102 | E9 | Support: in-app tickets, admin handling, WhatsApp line, localized macros | 8 | Backend + Frontend | G-074 | To do |
+| G-103 | E8 | Onboarding, how-it-works, help centre, low-data mode, PWA install, accessibility pass | 8 | Frontend + Designer | G-015 | To do |
+| G-110 | E3 | Production merchant onboarding with MTN and Airtel | 5 | PO + Backend | G-061 | To do |
 
 ## Acceptance criteria
 

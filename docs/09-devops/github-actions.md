@@ -5,7 +5,7 @@ All workflows live in `.github/workflows`. A composite action, `.github/actions/
 | Workflow | Trigger | What it does |
 |---|---|---|
 | `ci.yml` | push to main, PR, merge queue | Lint, format check, typecheck, unit tests on Node 20 and 22, coverage artifact, build. On PRs only affected workspaces run (`turbo --filter=...[origin/base]`). The final job `CI passed` is the single required status check. |
-| `backend.yml` | `backend/**`, `common/types/**` | Money-critical tests with coverage thresholds, PostgreSQL + Redis integration tests (real ledger triggers), migration safety lint. |
+| `backend.yml` | `backend/**`, `common/types/**` | Money-critical tests with coverage thresholds, PostgreSQL + Redis integration tests (ledger triggers, auth, sessions, PIN, rate limits, OpenAPI contract), Docker image build and boot check with runtime-generated secrets, migration safety lint. |
 | `web.yml` | `web/**`, `common/**` | Lint, typecheck, test, build for player and admin. |
 | `mobile.yml` | `mobile/**`, `common/**` | Lint, typecheck, test, build for the mobile app. |
 | `common.yml` | `common/**` | Shared packages, translation parity (rw, en, fr), then dependants. |

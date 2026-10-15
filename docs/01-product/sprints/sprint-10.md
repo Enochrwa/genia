@@ -1,7 +1,7 @@
 # Sprint 10: KYC and fraud
 
 - Dates: 8 Mar 2027 to 19 Mar 2027
-- Capacity: 34 points; committed: 29 (85%)
+- Capacity: 34 points; committed: 29 (85%); done: 0
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,13 +10,13 @@ KYC tiers, age enforcement and fraud flag queue operate; admin KPI dashboard liv
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-073 | E6 | Admin dashboard KPIs: users, deposits, withdrawals, games, revenue, reserve | 5 | Frontend | G-070 |
-| G-080 | E7 | KYC integration (Smile Identity): tiers and withdrawal gating | 8 | Backend | G-053 |
-| G-081 | E7 | Age enforcement: verified 18+ before first withdrawal, under-age block | 3 | Backend | G-080 |
-| G-082 | E7 | Fraud rules engine v1: device, IP and phone linkage, response-time anomalies, rapid cycling | 8 | Backend | G-043 |
-| G-085 | E7 | Fraud and flag review queue in admin with actions and appeal notes | 5 | Frontend | G-082, G-060 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-073 | E6 | Admin dashboard KPIs: users, deposits, withdrawals, games, revenue, reserve | 5 | Frontend | G-070 | To do |
+| G-080 | E7 | KYC integration (Smile Identity): tiers and withdrawal gating | 8 | Backend | G-053 | To do |
+| G-081 | E7 | Age enforcement: verified 18+ before first withdrawal, under-age block | 3 | Backend | G-080 | To do |
+| G-082 | E7 | Fraud rules engine v1: device, IP and phone linkage, response-time anomalies, rapid cycling | 8 | Backend | G-043 | To do |
+| G-085 | E7 | Fraud and flag review queue in admin with actions and appeal notes | 5 | Frontend | G-082, G-060 | To do |
 
 ## Acceptance criteria
 

@@ -1,7 +1,7 @@
 # Sprint 0: Foundations and discovery
 
 - Dates: 19 Oct 2026 to 30 Oct 2026
-- Capacity: 26 points; committed: 23 (88%)
+- Capacity: 26 points; committed: 23 (88%); done: 5
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,14 +10,14 @@ Legal counsel engaged, payout model signed off, owner access obtained, backend a
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-001 | E0 | Owner discovery: interview owner, get access to current IHUGURE code, DB, domain and payment accounts | 3 | PO | none |
-| G-002 | E0 | Engage Rwandan counsel: classification and licensing opinion kicked off, regulator contact plan | 3 | PO | none |
-| G-003 | E0 | Payout model sign-off: define 200%, partial results, caps, reserve size | 5 | PO + Backend | G-001 |
-| G-004 | E0 | Brand clearance for Genia: trademark, domain, app-store names, native-speaker check | 2 | PO | none |
-| G-005 | E10 | Backend scaffold: NestJS app, typed config, health and ready endpoints, Dockerfile | 5 | Backend | none |
-| G-006 | E10 | Web scaffolds: Next.js player and admin with Tailwind, next-intl, PWA manifest | 5 | Frontend | none |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-001 | E0 | Owner discovery: interview owner, get access to current IHUGURE code, DB, domain and payment accounts | 3 | PO | none | To do |
+| G-002 | E0 | Engage Rwandan counsel: classification and licensing opinion kicked off, regulator contact plan | 3 | PO | none | To do |
+| G-003 | E0 | Payout model sign-off: define 200%, partial results, caps, reserve size | 5 | PO + Backend | G-001 | To do |
+| G-004 | E0 | Brand clearance for Genia: trademark, domain, app-store names, native-speaker check | 2 | PO | none | To do |
+| G-005 | E10 | Backend scaffold: NestJS app, typed config, health and ready endpoints, Dockerfile | 5 | Backend | none | Done |
+| G-006 | E10 | Web scaffolds: Next.js player and admin with Tailwind, next-intl, PWA manifest | 5 | Frontend | none | To do |
 
 ## Acceptance criteria
 
@@ -26,6 +26,7 @@ Legal counsel engaged, payout model signed off, owner access obtained, backend a
 - **G-003**: Signed prize table, per-game/user/day/platform caps and reserve target committed to docs/00-overview/economics.md
 - **G-004**: Search report stored; go/no-go on name recorded in ADR-0007
 - **G-005**: GET /health and /ready return 200 in CI and docker compose; env validation fails fast
+  - Status note: NestJS app, validated config, /health and /ready, request IDs, error model and a Dockerfile. Server bundle booted and checked locally; the Docker image itself has not been built yet.
 - **G-006**: Both apps build in CI; locale routing /rw /en /fr works
 
 ## Sprint review demo

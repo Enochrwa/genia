@@ -3,9 +3,9 @@ name: Backend
 on:
   push:
     branches: [main]
-    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml"]
+    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml", ".dockerignore"]
   pull_request:
-    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml"]
+    paths: ["backend/**", "common/types/**", "pnpm-lock.yaml", ".dockerignore"]
 
 concurrency:
   group: backend-${{ github.ref }}
@@ -60,7 +60,52 @@ jobs:
       - name: Apply migrations
         run: pnpm --filter @genia/api db:migrate
       - name: Integration tests
-        run: pnpm --filter @genia/api exec vitest run --passWithNoTests --dir tests/integration
+        run: pnpm --filter @genia/api exec vitest run --passWithNoTests --dir tests/integration --reporter=default --reporter=github-actions
+
+  docker-image:
+    name: Docker image builds and boots
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start PostgreSQL and Redis
+        run: |
+          # Throw-away containers. PostgreSQL uses trust authentication, so no password exists anywhere.
+          docker run -d --name pg --network host -e POSTGRES_USER=genia -e POSTGRES_DB=genia \
+            -e POSTGRES_HOST_AUTH_METHOD=trust postgres:16
+          docker run -d --name redis --network host redis:7
+          for i in $(seq 1 30); do
+            docker exec pg pg_isready -U genia >/dev/null 2>&1 && docker exec redis redis-cli ping >/dev/null 2>&1 && exit 0
+            sleep 2
+          done
+          docker logs pg; exit 1
+      - name: Build image
+        run: docker build -f backend/api/Dockerfile -t genia-api:ci .
+      - name: Boot the container and check readiness
+        run: |
+          # Secrets are generated for this run only. The image runs with NODE_ENV=production, which refuses
+          # the console SMS provider and placeholder secrets, so this also exercises those safety checks.
+          export DATABASE_URL="postgresql://genia@localhost:5432/genia"
+          export REDIS_URL="redis://localhost:6379"
+          export JWT_ACCESS_SECRET="$(openssl rand -hex 32)"
+          export PIN_PEPPER="$(openssl rand -hex 16)"
+          export OTP_PEPPER="$(openssl rand -hex 16)"
+          export SMS_PROVIDER=africastalking
+          export AFRICAS_TALKING_API_KEY="$(openssl rand -hex 8)"
+          docker run -d --name api --network host \
+            -e DATABASE_URL -e REDIS_URL -e JWT_ACCESS_SECRET -e PIN_PEPPER -e OTP_PEPPER \
+            -e SMS_PROVIDER -e AFRICAS_TALKING_API_KEY -e API_PORT=4000 genia-api:ci
+          for i in $(seq 1 20); do
+            if curl -fsS http://localhost:4000/ready; then echo; exit 0; fi
+            sleep 2
+          done
+          docker logs api
+          exit 1
+      - name: Production config refuses unsafe settings
+        run: |
+          out=$(docker run --rm -e NODE_ENV=production -e DATABASE_URL=x -e JWT_ACCESS_SECRET=dev-only-0123456789012345678901234567890123 -e PIN_PEPPER=p -e OTP_PEPPER=o genia-api:ci 2>&1 || true)
+          echo "$out"
+          echo "$out" | grep -q "Invalid configuration"
 
   migrations-lint:
     name: Migration safety

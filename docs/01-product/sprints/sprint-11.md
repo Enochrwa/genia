@@ -1,7 +1,7 @@
 # Sprint 11: Responsible play and readiness
 
 - Dates: 22 Mar 2027 to 2 Apr 2027
-- Capacity: 30 points; committed: 26 (87%)
+- Capacity: 30 points; committed: 26 (87%); done: 0
 - Capacity note: Easter (late March) falls in this sprint: reduced capacity
 
 ## Sprint goal
@@ -10,12 +10,12 @@ Limits, self-exclusion and reality checks enforced; observability, load targets 
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-083 | E7 | Responsible play: limits UI, self-exclusion, cool-off and reality checks | 8 | Frontend + Backend | G-023 |
-| G-090 | E10 | Observability: OpenTelemetry, Sentry, dashboards and alerts for payments, ledger, reserve | 8 | DevOps | G-045 |
-| G-091 | E10 | Load testing and tuning at 5x expected peak with k6 | 5 | QA + DevOps | G-045, G-043 |
-| G-093 | E7 | Abuse hardening: Cloudflare bot protection, API rate limits, webhook allow-lists | 5 | DevOps + Backend | G-045 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-083 | E7 | Responsible play: limits UI, self-exclusion, cool-off and reality checks | 8 | Frontend + Backend | G-023 | To do |
+| G-090 | E10 | Observability: OpenTelemetry, Sentry, dashboards and alerts for payments, ledger, reserve | 8 | DevOps | G-045 | To do |
+| G-091 | E10 | Load testing and tuning at 5x expected peak with k6 | 5 | QA + DevOps | G-045, G-043 | To do |
+| G-093 | E7 | Abuse hardening: Cloudflare bot protection, API rate limits, webhook allow-lists | 5 | DevOps + Backend | G-045 | To do |
 
 ## Acceptance criteria
 

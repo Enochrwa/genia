@@ -1,7 +1,7 @@
 # Sprint 6: Game engine and withdrawals
 
 - Dates: 11 Jan 2027 to 22 Jan 2027
-- Capacity: 34 points; committed: 29 (85%)
+- Capacity: 34 points; committed: 29 (85%); done: 0
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,12 +10,12 @@ Server-authoritative game runs through the API; entry selection screen done; wit
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-042 | E4 | Game session service: start with hold, question selection, server timers in Redis | 8 | Backend | G-020, G-040, G-041 |
-| G-043 | E4 | Answer endpoint: deadline with grace, scoring, settlement postings, idempotent | 8 | Backend | G-042 |
-| G-050 | E8 | Category and entry selection with rules summary and confirm screen | 5 | Frontend | G-041, G-014 |
-| G-053 | E3 | Withdrawal request flow: PIN, limit checks, fee preview, hold posting, state machine | 8 | Backend | G-013, G-023, G-030 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-042 | E4 | Game session service: start with hold, question selection, server timers in Redis | 8 | Backend | G-020, G-040, G-041 | To do |
+| G-043 | E4 | Answer endpoint: deadline with grace, scoring, settlement postings, idempotent | 8 | Backend | G-042 | To do |
+| G-050 | E8 | Category and entry selection with rules summary and confirm screen | 5 | Frontend | G-041, G-014 | To do |
+| G-053 | E3 | Withdrawal request flow: PIN, limit checks, fee preview, hold posting, state machine | 8 | Backend | G-013, G-023, G-030 | To do |
 
 ## Acceptance criteria
 

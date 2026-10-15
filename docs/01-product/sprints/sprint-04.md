@@ -1,7 +1,7 @@
 # Sprint 4: Deposits and limits
 
 - Dates: 14 Dec 2026 to 25 Dec 2026
-- Capacity: 28 points; committed: 23 (82%)
+- Capacity: 28 points; committed: 23 (82%); done: 0
 - Capacity note: Christmas week: reduced capacity (about 85 percent)
 
 ## Sprint goal
@@ -10,12 +10,12 @@ Deposit works end to end with the MTN MoMo sandbox including webhooks and the sw
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-023 | E2 | Limits model: deposit, loss and time limits stored and enforceable | 5 | Backend | G-021 |
-| G-031 | E3 | MTN MoMo collections adapter (sandbox) for deposits | 8 | Backend | G-030 |
-| G-032 | E3 | Webhook ingestion: signature check, raw event store, dedupe, queue processing | 5 | Backend | G-030 |
-| G-033 | E3 | Deposit state machine, pending sweeper job and receipts | 5 | Backend | G-031, G-032 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-023 | E2 | Limits model: deposit, loss and time limits stored and enforceable | 5 | Backend | G-021 | To do |
+| G-031 | E3 | MTN MoMo collections adapter (sandbox) for deposits | 8 | Backend | G-030 | To do |
+| G-032 | E3 | Webhook ingestion: signature check, raw event store, dedupe, queue processing | 5 | Backend | G-030 | To do |
+| G-033 | E3 | Deposit state machine, pending sweeper job and receipts | 5 | Backend | G-031, G-032 | To do |
 
 ## Acceptance criteria
 

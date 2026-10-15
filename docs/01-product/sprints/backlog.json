@@ -247,7 +247,9 @@
       "sprint": 0,
       "deps": [],
       "role": "Backend",
-      "acceptance": "GET /health and /ready return 200 in CI and docker compose; env validation fails fast"
+      "acceptance": "GET /health and /ready return 200 in CI and docker compose; env validation fails fast",
+      "status": "done",
+      "note": "NestJS app, validated config, /health and /ready, request IDs, error model and a Dockerfile. Server bundle booted and checked locally; the Docker image itself has not been built yet."
     },
     {
       "id": "G-006",
@@ -267,7 +269,9 @@
       "sprint": 1,
       "deps": [],
       "role": "Designer",
-      "acceptance": "Interview notes and validated flows in docs/11-design"
+      "acceptance": "Interview notes and validated flows in docs/11-design",
+      "status": "in-progress",
+      "note": "Research kit written (interview guide, consent script, flow sketches, synthesis template). Needs the 5 player interviews to finish."
     },
     {
       "id": "G-010",
@@ -277,7 +281,9 @@
       "sprint": 1,
       "deps": ["G-005"],
       "role": "Backend",
-      "acceptance": "OTP 6 digits, 5 min expiry, 5 attempts, locked after; tests cover abuse cases"
+      "acceptance": "OTP 6 digits, 5 min expiry, 5 attempts, locked after; tests cover abuse cases",
+      "status": "done",
+      "note": "OTP request and verify with per-phone, per-IP and resend limits, hashed codes, 5 attempts, 5 minute expiry, single use, age confirmation for new numbers."
     },
     {
       "id": "G-011",
@@ -287,7 +293,9 @@
       "sprint": 1,
       "deps": ["G-010"],
       "role": "Backend",
-      "acceptance": "Reused refresh token revokes the session family; logout everywhere works"
+      "acceptance": "Reused refresh token revokes the session family; logout everywhere works",
+      "status": "done",
+      "note": "15 minute access tokens (checked against the session on every call), rotating refresh tokens, reuse detection closes the session, logout, logout-all and device list."
     },
     {
       "id": "G-012",
@@ -297,7 +305,9 @@
       "sprint": 1,
       "deps": ["G-005"],
       "role": "Backend",
-      "acceptance": "Unique phone per country enforced by DB; migration reviewed"
+      "acceptance": "Unique phone per country enforced by DB; migration reviewed",
+      "status": "done",
+      "note": "users table with unique E.164 phone, locale, country, status, KYC level; profile endpoints; all phone formats map to one account."
     },
     {
       "id": "G-013",
@@ -307,7 +317,9 @@
       "sprint": 1,
       "deps": ["G-011"],
       "role": "Backend",
-      "acceptance": "argon2id with pepper; lock and unlock behaviour tested"
+      "acceptance": "argon2id with pepper; lock and unlock behaviour tested",
+      "status": "done",
+      "note": "argon2id with pepper, weak-PIN policy, 5 failures lock for 30 minutes, change and verify endpoints."
     },
     {
       "id": "G-014",
@@ -337,7 +349,9 @@
       "sprint": 1,
       "deps": ["G-010"],
       "role": "Backend",
-      "acceptance": "OTP delivered in sandbox; delivery failures alert"
+      "acceptance": "OTP delivered in sandbox; delivery failures alert",
+      "status": "in-progress",
+      "note": "Africa's Talking adapter, console fallback and failure handling done and unit tested. Still needs a live sandbox delivery check with real credentials and an alert rule on the SMS_DELIVERY_FAILED log line."
     },
     {
       "id": "G-020",

@@ -1,7 +1,7 @@
 # Sprint 3: Wallet and staging
 
 - Dates: 30 Nov 2026 to 11 Dec 2026
-- Capacity: 32 points; committed: 28 (88%)
+- Capacity: 32 points; committed: 28 (88%); done: 0
 - Capacity note: Normal capacity
 
 ## Sprint goal
@@ -10,13 +10,13 @@ Wallet shows balances and history from the ledger; provider interface exists; st
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-022 | E2 | Transaction history API and receipts with reference IDs | 5 | Backend | G-021 |
-| G-024 | E8 | Wallet UI: balance card, history list, status chips, receipt view | 5 | Frontend | G-021, G-014 |
-| G-026 | E2 | Invariant and concurrency test pack: double spend, replay, crash between steps | 5 | QA + Backend | G-020 |
-| G-030 | E3 | Provider adapter interface plus fake provider with configurable delay and failure | 5 | Backend | G-021 |
-| G-035 | E10 | Staging infrastructure part 1: Terraform VPC, RDS PostgreSQL, Redis, secrets | 8 | DevOps | G-005 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-022 | E2 | Transaction history API and receipts with reference IDs | 5 | Backend | G-021 | To do |
+| G-024 | E8 | Wallet UI: balance card, history list, status chips, receipt view | 5 | Frontend | G-021, G-014 | To do |
+| G-026 | E2 | Invariant and concurrency test pack: double spend, replay, crash between steps | 5 | QA + Backend | G-020 | To do |
+| G-030 | E3 | Provider adapter interface plus fake provider with configurable delay and failure | 5 | Backend | G-021 | To do |
+| G-035 | E10 | Staging infrastructure part 1: Terraform VPC, RDS PostgreSQL, Redis, secrets | 8 | DevOps | G-005 | To do |
 
 ## Acceptance criteria
 

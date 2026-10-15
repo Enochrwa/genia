@@ -1,3 +1,14 @@
+import type {
+  AuthTokensDto,
+  ChangePin,
+  OtpRequest,
+  OtpRequestedDto,
+  OtpVerify,
+  SessionDto,
+  UpdateProfile,
+  UserDto,
+} from "@genia/types";
+
 export interface ApiClientOptions {
   baseUrl: string;
   fetchImpl?: typeof fetch;
@@ -57,11 +68,31 @@ export function createApiClient(opts: ApiClientOptions) {
       }
       throw new ApiError(res.status, code, message, requestId);
     }
+    if (res.status === 204) return undefined as T;
     return (await res.json()) as T;
   }
 
   return {
     request,
+    // authentication
+    requestOtp: (body: OtpRequest) =>
+      request<OtpRequestedDto>("/auth/otp/request", { method: "POST", body }),
+    verifyOtp: (body: OtpVerify) =>
+      request<AuthTokensDto>("/auth/otp/verify", { method: "POST", body }),
+    refresh: (refreshToken: string) =>
+      request<AuthTokensDto>("/auth/refresh", { method: "POST", body: { refreshToken } }),
+    logout: () => request<void>("/auth/logout", { method: "POST" }),
+    logoutAll: () => request<{ revoked: number }>("/auth/logout-all", { method: "POST" }),
+    // profile and sessions
+    me: () => request<UserDto>("/me"),
+    updateMe: (body: UpdateProfile) => request<UserDto>("/me", { method: "PATCH", body }),
+    listSessions: () => request<SessionDto[]>("/me/sessions"),
+    revokeSession: (id: string) => request<void>(`/me/sessions/${id}`, { method: "DELETE" }),
+    // transaction PIN
+    setPin: (pin: string) => request<void>("/me/pin", { method: "POST", body: { pin } }),
+    changePin: (body: ChangePin) => request<void>("/me/pin", { method: "PUT", body }),
+    verifyPin: (pin: string) => request<void>("/me/pin/verify", { method: "POST", body: { pin } }),
+    // game and wallet (later sprints)
     startGame: (entryLevel: number, category: string, idempotencyKey: string) =>
       request("/games", { method: "POST", body: { entryLevel, category }, idempotencyKey }),
     submitAnswer: (gameId: string, questionId: string, optionId: string) =>

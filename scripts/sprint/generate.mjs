@@ -20,6 +20,8 @@ for (const s of stories) {
   if (!epics[s.epic]) errors.push(`${s.id}: unknown epic ${s.epic}`);
   if (!sprints[s.sprint]) errors.push(`${s.id}: unknown sprint ${s.sprint}`);
   if (!s.acceptance) errors.push(`${s.id}: missing acceptance criteria`);
+  if (s.status !== undefined && !["done", "in-progress"].includes(s.status))
+    errors.push(`${s.id}: unknown status ${s.status}`);
 }
 for (const s of stories) {
   for (const d of s.deps) {
@@ -95,6 +97,9 @@ const nn = (n) => String(n).padStart(2, "0");
 const files = new Map();
 
 const totalPts = stories.reduce((a, s) => a + s.points, 0);
+const donePts = (list) => list.filter((s) => s.status === "done").reduce((a, s) => a + s.points, 0);
+const label = (s) =>
+  s.status === "done" ? "Done" : s.status === "in-progress" ? "In progress" : "To do";
 const totalCap = sprints.reduce((a, s) => a + s.capacity, 0);
 
 // overview
@@ -109,6 +114,13 @@ const totalCap = sprints.reduce((a, s) => a + s.capacity, 0);
   md += `## Sprint overview\n\n| Sprint | Dates | Goal | Committed | Capacity | Load |\n|---|---|---|---:|---:|---:|\n`;
   for (const sp of sprints)
     md += `| [${sp.n}](sprint-${nn(sp.n)}.md) ${sp.name} | ${fmt(sp.start)} to ${fmt(sp.end)} | ${sp.goal} | ${load[sp.n]} | ${sp.capacity} | ${pct(load[sp.n], sp.capacity)} |\n`;
+  md += `\n## Progress\n\n${donePts(stories)} of ${totalPts} points done (${pct(donePts(stories), totalPts)}).\n\n| Sprint | Done | In progress | To do |\n|---|---:|---:|---:|\n`;
+  for (const sp of sprints) {
+    const ss = stories.filter((s) => s.sprint === sp.n);
+    const done = donePts(ss);
+    const prog = ss.filter((s) => s.status === "in-progress").reduce((a, s) => a + s.points, 0);
+    md += `| ${sp.n} | ${done} | ${prog} | ${load[sp.n] - done - prog} |\n`;
+  }
   md += `\n## Release milestones\n\n| Milestone | Sprint | What it means |\n|---|---|---|\n`;
   md += `| M0 Foundations | 0 | Legal engaged, payout model signed, CI and scaffolds running |\n`;
   md += `| M1 Money core | 4 | Ledger, wallet and sandbox deposits work end to end |\n`;
@@ -163,12 +175,13 @@ const totalCap = sprints.reduce((a, s) => a + s.capacity, 0);
 for (const sp of sprints) {
   const ss = stories.filter((s) => s.sprint === sp.n);
   let md = `# Sprint ${sp.n}: ${sp.name}\n\n`;
-  md += `- Dates: ${fmt(sp.start)} to ${fmt(sp.end)}\n- Capacity: ${sp.capacity} points; committed: ${load[sp.n]} (${pct(load[sp.n], sp.capacity)})\n- Capacity note: ${sp.capacityNote}\n\n`;
-  md += `## Sprint goal\n\n${sp.goal}.\n\n## Stories\n\n| ID | Epic | Story | Points | Owner role | Depends on |\n|---|---|---|---:|---|---|\n`;
+  md += `- Dates: ${fmt(sp.start)} to ${fmt(sp.end)}\n- Capacity: ${sp.capacity} points; committed: ${load[sp.n]} (${pct(load[sp.n], sp.capacity)}); done: ${donePts(ss)}\n- Capacity note: ${sp.capacityNote}\n\n`;
+  md += `## Sprint goal\n\n${sp.goal}.\n\n## Stories\n\n| ID | Epic | Story | Points | Owner role | Depends on | Status |\n|---|---|---|---:|---|---|---|\n`;
   for (const s of ss)
-    md += `| ${s.id} | ${s.epic} | ${s.title} | ${s.points} | ${s.role} | ${s.deps.length ? s.deps.join(", ") : "none"} |\n`;
+    md += `| ${s.id} | ${s.epic} | ${s.title} | ${s.points} | ${s.role} | ${s.deps.length ? s.deps.join(", ") : "none"} | ${label(s)} |\n`;
   md += `\n## Acceptance criteria\n\n`;
-  for (const s of ss) md += `- **${s.id}**: ${s.acceptance}\n`;
+  for (const s of ss)
+    md += `- **${s.id}**: ${s.acceptance}${s.note ? `\n  - Status note: ${s.note}` : ""}\n`;
   md += `\n## Sprint review demo\n\n${sp.demo}.\n\n## Risks\n\n${sp.risks}.\n\n`;
   const carry = ss.filter((s) => s.deps.some((d) => byId.get(d).sprint === sp.n));
   if (carry.length)
@@ -192,7 +205,7 @@ for (const [name, content] of files) {
 if (check) {
   const known = new Set([...files.keys(), "README.md", "backlog.json"]);
   for (const f of readdirSync(dir))
-    if (!known.has(f)) {
+    if (!known.has(f) && !/^sprint-\d\d-review\.md$/.test(f)) {
       console.error(`unexpected file: ${f}`);
       stale++;
     }

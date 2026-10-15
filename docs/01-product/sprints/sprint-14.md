@@ -1,7 +1,7 @@
 # Sprint 14: Private beta
 
 - Dates: 3 May 2027 to 14 May 2027
-- Capacity: 34 points; committed: 29 (85%)
+- Capacity: 34 points; committed: 29 (85%); done: 0
 - Capacity note: Normal capacity; protect the beta fix budget
 
 ## Sprint goal
@@ -10,12 +10,12 @@ Invited users play with real money under low caps; daily reconciliation ritual r
 
 ## Stories
 
-| ID | Epic | Story | Points | Owner role | Depends on |
-|---|---|---|---:|---|---|
-| G-111 | E10 | Beta release: caps and allow-list configuration, daily reconciliation review ritual | 5 | Backend + PO | G-071, G-072 |
-| G-112 | E8 | Beta feedback fixes and UX iteration budget | 13 | Team | G-103 |
-| G-114 | E9 | Support training, dispute playbooks and SLA dashboard | 3 | Ops | G-102 |
-| G-121 | E10 | Production infrastructure, runbooks, on-call rota and public status page | 8 | DevOps | G-045, G-090 |
+| ID | Epic | Story | Points | Owner role | Depends on | Status |
+|---|---|---|---:|---|---|---|
+| G-111 | E10 | Beta release: caps and allow-list configuration, daily reconciliation review ritual | 5 | Backend + PO | G-071, G-072 | To do |
+| G-112 | E8 | Beta feedback fixes and UX iteration budget | 13 | Team | G-103 | To do |
+| G-114 | E9 | Support training, dispute playbooks and SLA dashboard | 3 | Ops | G-102 | To do |
+| G-121 | E10 | Production infrastructure, runbooks, on-call rota and public status page | 8 | DevOps | G-045, G-090 | To do |
 
 ## Acceptance criteria
 

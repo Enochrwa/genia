@@ -43,4 +43,34 @@ describe("api client", () => {
     });
     await expect(c.requestWithdrawal(100, "RWF", "k")).rejects.toBeInstanceOf(ApiError);
   });
+
+  it("handles 204 No Content", async () => {
+    const f = vi.fn(async () => new Response(null, { status: 204 }));
+    const c = createApiClient({ baseUrl: "http://x", fetchImpl: f as unknown as typeof fetch });
+    await expect(c.logout()).resolves.toBeUndefined();
+  });
+
+  it("calls the auth and PIN endpoints with the right method, path and body", async () => {
+    const f = vi.fn(async () => new Response(JSON.stringify({}), { status: 200 }));
+    const c = createApiClient({ baseUrl: "http://x", fetchImpl: f as unknown as typeof fetch });
+    await c.requestOtp({ phone: "0788123456" });
+    await c.verifyOtp({ phone: "0788123456", code: "123456", ageConfirmed: true });
+    await c.refresh("r".repeat(43));
+    await c.updateMe({ locale: "fr" });
+    await c.changePin({ currentPin: "48291", newPin: "73915" });
+    const calls = (f.mock.calls as unknown as [string, RequestInit][]).map(
+      ([u, i]) => `${i.method} ${u.replace("http://x", "")}`,
+    );
+    expect(calls).toEqual([
+      "POST /v1/auth/otp/request",
+      "POST /v1/auth/otp/verify",
+      "POST /v1/auth/refresh",
+      "PATCH /v1/me",
+      "PUT /v1/me/pin",
+    ]);
+    const refreshBody = JSON.parse(
+      (f.mock.calls[2] as unknown as [string, RequestInit])[1].body as string,
+    );
+    expect(refreshBody).toEqual({ refreshToken: "r".repeat(43) });
+  });
 });
